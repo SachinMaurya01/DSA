@@ -1,5 +1,5 @@
 
-1. Right/Left view of binary tree
+Question 1. Right/Left view of binary tree
     Problem Statement: The Right View of a Binary Tree is a list of nodes that can be seen when the tree
     is viewed from the right side. The Left View of a Binary Tree is a list of nodes that can be seen when
     the tree is viewed from the left side.
@@ -42,9 +42,10 @@ Intitution / Approach :-
     }
 
 
+------------------------------------------------------------------------------------------------------------------------------->
 
-2. Bottom view of a Binary Tree
-   Problem Statement: Given a Binary Tree, return its Bottom View. The Bottom View of
+Question 2. Bottom view of a Binary Tree
+Problem Statement: Given a Binary Tree, return its Bottom View. The Bottom View of
    a Binary Tree is the set of nodes visible when we see the tree from the bottom.
 
    LINK:- https://www.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1
@@ -86,3 +87,98 @@ Intitution / Approach :-
         }
         return ans;
     }
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 3:- Preorder Inorder Postorder Traversals in One Traversal
+Problem Statement: Given the root of a Binary Tree, return the preorder, inorder and postorder traversal sequence of the given tree by making just one traversal.
+
+Intitution / Approach :-
+
+1. We use stack traversal (TreeNode*,int level), we first start from root.
+   We pick element from stack store it into preorder, then increment it state to 2 for inorder 
+   and check if it has left child then push it into stack with state 1.
+2. Same thing we do for inorder if top element state is 2, then check if it has right child because same root node will come 
+   in it. we already check its left child.
+3. At last last we have state is 3. So, Just push it into post order.
+
+
+    stack<pair<Node*, int>> st;
+    st.push({root, 1});
+
+    while (!st.empty()) {
+        auto it = st.top();
+        st.pop();
+
+        // this is part of pre
+        if (it.second == 1) {
+            pre.push_back(it.first->data);  // Store the node's data in the preorder traversal
+            it.second = 2;  // Move to state 2 (inorder) for this node
+            st.push(it);  // Push the updated state back onto the stack
+
+            // Push left child onto the stack for processing
+            if (it.first->left != NULL) {
+                st.push({it.first->left, 1});
+            }
+        }
+
+        // this is a part of in
+        else if (it.second == 2) {
+            in.push_back(it.first->data); // Store the node's data in the inorder traversal
+            it.second = 3;   // Move to state 3 (postorder) for this node
+            st.push(it);    // Push the updated state back onto the stack
+
+            // Push right child onto  the stack for processing
+            if (it.first->right != NULL) {
+                st.push({it.first->right, 1});
+            }
+        }
+
+        // this is part of post
+        else {
+            // Store the node's data in the postorder traversal
+            post.push_back(it.first->data);
+        }
+    }
+
+    // Returning the traversals
+    vector<vector<int>> result;
+    result.push_back(pre);
+    result.push_back(in);
+    result.push_back(post);
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 4:- Maximum Width of a Binary Tree
+Problem Statement: Given a Binary Tree, return its maximum width. The maximum width of a Binary Tree is the maximum diameter among all 
+its levels. The width or diameter of a level is the number of nodes between the leftmost and rightmost nodes.
+
+Algorithm / Intuition:-
+
+1. We keep track of first and last element while iterating queue elements.
+2. The main part is how we track the width between first and last , answer is simple . We just keep incrementing the value
+   if root has left then it will be 2 * cur_level + 1 and for right it will be 2 * n + 2. We are using 2*n because as depth increases 
+   every node 2 childs.
+
+
+        // Calculate current position relative to the minimum position in the level
+        int cur_id = q.front().second - mmin;
+                
+        TreeNode* node = q.front().first;
+        q.pop();
+
+        // If this is the first node in the level, update the 'first' variable
+        if (i == 0) first = cur_id;
+
+        // If this is the last node in the level, update the 'last' variable
+        if (i == size - 1)  last = cur_id;
+
+        // Enqueue the left child of the current node with its position
+        if (node->left)  q.push({node->left, cur_id * 2 + 1});
+
+        // Enqueue the right child of the current node with its position
+        if (node->right)   q.push({node->right, cur_id * 2 + 2});
+
+        // Update the maximum width by calculatingthe difference between the first and last positions, and adding 1
+        ans = max(ans, last - first + 1);
