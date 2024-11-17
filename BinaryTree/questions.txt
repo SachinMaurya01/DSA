@@ -12,6 +12,8 @@ Intitution / Approach :-
 2. For Optimal, traversal right side for right view and keep track of lvl at same time. 
    Store the element if level is equal to the level.
 
+// Code Logic:-
+
 => Brute Force
 
     queue < Node *> q;
@@ -29,7 +31,7 @@ Intitution / Approach :-
         }
     }
 
- => Optimal Approach
+=> Optimal Approach
 
     void recursionRight(Node* root, int level, vector<int> &res){
         if(root == NULL) return;
@@ -52,6 +54,8 @@ Problem Statement: Given a Binary Tree, return its Bottom View. The Bottom View 
 
    Intitution / Approach :-
    1. We can use map to store the last value of particular line. 
+
+// Code Logic:-
 
     vector<int> bottomView(Node* root){
         
@@ -91,7 +95,10 @@ Problem Statement: Given a Binary Tree, return its Bottom View. The Bottom View 
 ------------------------------------------------------------------------------------------------------------------------------->
 
 Question 3:- Preorder Inorder Postorder Traversals in One Traversal
-Problem Statement: Given the root of a Binary Tree, return the preorder, inorder and postorder traversal sequence of the given tree by making just one traversal.
+Problem Statement: Given the root of a Binary Tree, return the preorder, inorder and postorder traversal sequence of the given tree
+by making just one traversal.
+
+LINK:- https://www.naukri.com/code360/problems/981269?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website
 
 Intitution / Approach :-
 
@@ -102,6 +109,7 @@ Intitution / Approach :-
    in it. we already check its left child.
 3. At last last we have state is 3. So, Just push it into post order.
 
+// Code Logic:-
 
     stack<pair<Node*, int>> st;
     st.push({root, 1});
@@ -154,6 +162,8 @@ Question 4:- Maximum Width of a Binary Tree
 Problem Statement: Given a Binary Tree, return its maximum width. The maximum width of a Binary Tree is the maximum diameter among all 
 its levels. The width or diameter of a level is the number of nodes between the leftmost and rightmost nodes.
 
+LINK:- https://leetcode.com/problems/maximum-width-of-binary-tree/description/
+
 Algorithm / Intuition:-
 
 1. We keep track of first and last element while iterating queue elements.
@@ -161,6 +171,8 @@ Algorithm / Intuition:-
    if root has left then it will be 2 * cur_level + 1 and for right it will be 2 * n + 2. We are using 2*n because as depth increases 
    every node 2 childs.
 
+
+// Code Logic:-
 
         // Calculate current position relative to the minimum position in the level
         int cur_id = q.front().second - mmin;
@@ -182,3 +194,407 @@ Algorithm / Intuition:-
 
         // Update the maximum width by calculatingthe difference between the first and last positions, and adding 1
         ans = max(ans, last - first + 1);
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 5:- Lowest Common Ancestor for two given Nodes
+Problem Statement: Given a binary tree, Find the Lowest Common Ancestor for two given Nodes (x,y).
+
+LINK:- https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+
+Algorithm / Intuition:-
+
+1. First we iterate left and right Recursively, if we found root node as same p , q or null target node.Then, we will return root.
+2. After that for every parent node we have two values either null or target node. We pick target ones and then send it to parent nodes.
+3. That target node will Recursively move parent to parent.
+
+// Code Logic:-
+
+    if(root==nullptr || root==p || root==q) return root;
+    TreeNode* left = lowestCommonAncestor(root->left,p,q);
+    TreeNode* right = lowestCommonAncestor(root->right,p,q);
+    if(left==nullptr){
+        return right;
+    }else if(right == NULL){
+        return left;
+    }else{
+        return root;  //both left and right are not null, we found our result
+    }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 6:- Maximum Sum Path in Binary Tree
+Problem Statement: Given a Binary Tree, determine the maximum sum achievable along any path within the tree. 
+        A path in a binary tree is defined as a sequence of nodes where each pair of adjacent nodes is connected by 
+        an edge. Nodes can only appear once in the sequence, and the path is not required to start from the root.
+        Identify and compute the maximum sum possible along any path within the given binary tree.
+
+LINK:- https://leetcode.com/problems/binary-tree-maximum-path-sum/
+
+Algorithm / Intuition:-
+
+Intuition :- We make a reverse u shape , whether it will cover root or not . We have to return the max sum path.
+1. we start iterating left and then right. we calculate left sum and right sum.
+2. while iterating we keep a ans variable to updated if left + right+root is greater than cur answer.
+3. In return , we return max(left,right)+ root because we have to make the u shape for that we can move with which path is maximum,
+   but we are updating the answer left + right+ root .
+
+// Code Logic:-
+
+   int findMaxPathSum(Node* root, int &maxi) {
+        // Base case: If the current node is null, return 0
+        if (root == nullptr) {
+            return 0;
+        }
+
+        // Calculate the maximum path sum for the left and right subtrees
+        int leftMaxPath = max(0, findMaxPathSum(root->left, maxi));
+        int rightMaxPath = max(0, findMaxPathSum(root->right, maxi));
+
+        // Update the overall maximum  path sum including the current node
+        maxi = max(maxi, leftMaxPath + rightMaxPath + root->data);
+
+        // Return the maximum sum considering  only one branch (either left or right) along with the current node
+        return max(leftMaxPath, rightMaxPath) + root->data;
+    }
+
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+
+Question 7: Construct A Binary Tree from Inorder and Preorder Traversal
+Problem Statement: Given the Preorder and Inorder traversal of a Binary Tree, construct the Unique Binary Tree 
+    represented by them
+
+LINK:- https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+Algorithm / Intuition:-
+
+Intuition :- Inorder traversal allows us to identify a node and its left and right subtrees, while preorder traversal
+  ensures we always encounter the root node first. We locate this root node in the inorder traversal, which splits the array
+  into the left and right subtrees.
+
+  1. We use map to find the inorder element index and use (inStart, inEnd) and (preStart, preEnd) variables to divide the array 
+     for duplication.
+  2. Everytime we encounter the root of a subtree via preorder traversal, we locate its position in the inorder array to get the
+     left and right subtrees.
+
+
+// Code Logic :-
+
+        TreeNode* buildTree(vector<int>& preorder, int preStart, int preEnd, 
+            vector<int>& inorder, int inStart, int inEnd, map<int, int>& inMap){
+                // Base case: If the start indices exceed the end indices, return NULL
+                if(preStart > preEnd || inStart > inEnd){
+                    return NULL;
+                }
+                
+                // Create a new TreeNode with value at the current preorder index
+                TreeNode* root = new TreeNode(preorder[preStart]);
+                
+                // Find the index of the current root value in the inorder traversal
+                int inRoot = inMap[root->val];
+                
+                // Calculate the number of elements in the left subtree
+                int numsLeft = inRoot - inStart;
+                
+                // Recursively build the left subtree
+                root->left = buildTree(preorder, preStart + 1, preStart + numsLeft, 
+                                inorder, inStart, inRoot - 1, inMap);
+                
+                // Recursively build the right subtree
+                root->right = buildTree(preorder, preStart + numsLeft + 1, preEnd, 
+                                inorder, inRoot + 1, inEnd, inMap);
+                
+                // Return the current root node
+                return root;
+            }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 8:- Flatten Binary Tree to Linked List
+Problem Statement: Given a Binary Tree, convert it to a Linked List where the linked list nodes follow the same order as the 
+    pre-order traversal of the binary tree.
+
+LINK:- https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+
+Algorithm / Intuition:- 
+
+Morris Traversal :-  is an algorithm that allows preorder/inorder tree traversal without using any extra space for stack or 
+        recursion. It utilises threaded binary trees to traverse the tree without requiring a stack for saving 
+        the path.
+
+    1. we will first traverse root->left child and then we iteraate its left right child until we didnot see NULL child.
+    2. Then we link that NULL child to the root->right and make that root->right to root->left . root->left  will become NULL.
+    3. Then move to cur->right.Same process we repeat for Nodes.
+
+
+// Code Logic :-
+    void flatten(TreeNode* root) {
+            // Initialize a pointer 'curr' to the root of the tree
+            TreeNode* curr = root;
+
+            // Iterate until 'curr' becomes NULL
+            while (curr) {
+                // Check if the current node has a left child
+                if (curr->left) {
+                    // If yes, find the rightmost node in the left subtree
+                    TreeNode* pre = curr->left;
+                    while (pre->right) {
+                        pre = pre->right;
+                    }
+
+                    // Connect the rightmost node in the left subtree to the current node's right child
+                    pre->right = curr->right;
+
+                    // Move the entire left subtree to the right child of the current node
+                    curr->right = curr->left;
+
+                    // Set the left child of the current node to NULL
+                    curr->left = NULL;
+                }
+
+                // Move to the next node on the right side
+                curr = curr->right;
+            }
+        }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 9:- Construct Binary Search Tree from Preorder Traversal (1008-LeetCode)
+
+LINK:- https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/
+
+
+Algorithm / Intuition:- 
+1. we know that preorder ( root->left->right), So, we are using 4 pointers to differentaiate the left array and right array.
+2. Then we are using recursion to break down it again and again.
+3. Base case will be if start is greater than end return NULL.
+
+// Code Logic :-
+
+    if(s>e) return NULL;
+    int rs;
+    // To find index where right array if startig
+    for(int i=s;i<=e;i++){
+        if(preorder[i]>preorder[s]){
+            rs=i;
+            break;
+        }
+    }
+    // left array end will be right start -1 
+    int ls=s+1,le=rs-1,re=e;
+    TreeNode* root=new TreeNode(preorder[s]);
+    root->left=helper(preorder,ls,le);
+    root->right=helper(preorder,rs,re);
+    return root;
+
+    // Alternative :-
+
+        // Base case: If index is out of bounds or the current value does not satisfy BST properties
+        if (index == preorder.size() || preorder[index] < lower || preorder[index] > upper) {
+            return nullptr;
+        }
+        
+        // Root node for this subtree
+        int val = preorder[index++];
+        TreeNode* root = new TreeNode(val);
+        
+        // Recursively construct left and right subtrees
+        root->left = buildBST(preorder, index, lower, val);
+        root->right = buildBST(preorder, index, val, upper);
+        
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 10:- Kth largest/smallest element in Binary Search Tree
+
+Problem Statement: Given a Binary Search Tree and an integer ‘K’. Find and return the ‘K-th’ smallest and ‘K-th’
+                   largest element in the given Binary Search Tree.
+
+LINK:- https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+
+Algorithm / Intuition:- 
+1. We can inorder traversal. For smaller element, we can move to the left side -> root ->right.If give (k == cnt) return root->val.
+2. We can use preorder traversal. For larger element, we can move to the right side -> root ->left.
+   If give (k == cnt) return root->val.
+
+// Code Logic :-
+
+    void inorder(TreeNode* node, int& counter, int k, int& kSmallest) {
+        if (!node || counter >= k) return;
+
+        // Traverse left subtree
+        inorder(node->left, counter, k, kSmallest);
+
+        // Increment counter after visiting left subtree
+        counter++;
+
+        // Check if current node is the Kth smallest
+        if (counter == k) {
+            kSmallest = node->val;
+            return;
+        }
+
+        // Traverse right subtree if Kth smallest is not found yet
+        inorder(node->right, counter, k, kSmallest);
+    }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 11:- Maximum Sum BST in Binary Tree
+
+Problem Statement: Given a binary tree root, return the maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).
+                    Both the left and right subtrees must also be binary search trees.
+
+LINK:- https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/description/
+
+Approach / Intitution:-
+1. We recursive iterate all left and right nodes with checking that root node is a BST or not. If its BST and its 
+    sum is greater than then make it a answer.
+2. In this process , we need a struct datastructure with 4 parameters: (sum, isBST, maxLeft, minRight) to keep track of child nodes.
+
+
+// Code Logic:-
+    struct info {
+        int maxVal;
+        int minVal;
+        int sum;
+        bool isBST;  
+    };
+
+    class Solution {
+    public:
+    info helper(TreeNode* root,int &ans){
+        if(root==NULL){
+            info temp;
+            temp.isBST = true;
+            temp.sum = 0;
+            temp.minVal=INT_MAX;
+            temp.maxVal = INT_MIN;
+            ans=max(temp.sum , ans);
+            return temp;
+        }
+        info left=helper(root->left,ans);
+        info right=helper(root->right,ans);
+        info CurRoot;
+        CurRoot.minVal= min(left.minVal, min(right.minVal,root->val));
+        CurRoot.maxVal= max(left.maxVal, max(right.maxVal,root->val));
+        CurRoot.sum = left.sum + right.sum + root->val;
+        CurRoot.isBST = (root->val > left.maxVal && root->val < right.minVal && left.isBST && right.isBST);
+        if(CurRoot.isBST){
+            ans=max(CurRoot.sum , ans);
+        }
+        return CurRoot;
+    }
+        int maxSumBST(TreeNode* root) {
+            int ans=0;
+            helper(root,ans);
+            return ans;
+        }
+    };
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 12:- Serialize And Deserialize a Binary Tree
+
+Problem Statement: Given a Binary Tree, design an algorithm to serialise and deserialise it. There is no restriction 
+                  on how the serialisation and deserialization takes place. But it needs to be ensured that the 
+                  serialised binary tree can be deserialized to the original tree structure. Serialisation is the
+                  process of translating a data structure or object state into a format that can be stored or transmitted
+                  (for example, across a computer network) and reconstructed later. The opposite operation, that is,
+                  extracting a data structure from stored information, is deserialization.
+
+LINK:- https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+
+Approach / Intitution:-
+1. For Serialize , we can use BFS traversal . One catch is there like for NULL pointer we are going to store it as # 
+   and every insertion. We are going to store ',' . So, that it will easy for Deserialize.
+2. In Deserialize, we are going to use stringstream ( to breakdown the words) and getline( Read the root value from the 
+   serialized data).
+
+
+// Code Logic:-
+
+    string serialize(TreeNode* root) {
+        // Check if the tree is empty
+        if (!root) {
+            return "";
+        }
+
+        // Initialize an empty string to store the serialized data
+        string s = "";
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            TreeNode* curNode = q.front();
+            q.pop();
+
+            // Check if the current node is null and append "#" to the string
+            if (curNode == nullptr) {
+                s += "#,";
+            } else {
+                // Append the value of the current node to the string
+                s += to_string(curNode->val) + ",";
+                // Push the left and right children to the queue for further traversal
+                q.push(curNode->left);
+                q.push(curNode->right);
+            }
+        }
+
+        // Return the
+        // serialized string
+        return s;
+    }
+
+    // Decode the encoded data to a tree
+    TreeNode* deserialize(string data) {
+        // Check if the serialized data is empty
+        if (data.empty()) {
+            return nullptr;
+        }
+
+        // Use a stringstream to tokenize the serialized data
+        stringstream s(data);
+        string str;
+        // Read the root value from the serialized data
+        getline(s, str, ',');
+        TreeNode* root = new TreeNode(stoi(str));
+
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            // Get the front node in the queue
+            TreeNode* node = q.front();
+            q.pop();
+
+            // Read the value of the left child from the serialized data
+            getline(s, str, ',');
+            // If the value is not "#", create a new left child and push it to the queue
+            if (str != "#") {
+                TreeNode* leftNode = new TreeNode(stoi(str));
+                node->left = leftNode;
+                q.push(leftNode);
+            }
+
+            // Read the value of the right child from the serialized data
+            getline(s, str, ',');
+            // If the value is not "#", create a new right child and push it to the queue
+            if (str != "#") {
+                TreeNode* rightNode = new TreeNode(stoi(str));
+                node->right = rightNode;
+                q.push(rightNode);
+            }
+        }
+
+        // Return the reconstructed root of the tree
+        return root;
+    }
