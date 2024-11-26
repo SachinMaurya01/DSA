@@ -1,0 +1,110 @@
+
+<------------------------------GRAPH TRAVERSAL--------------------------->
+
+=> Graph Representations:-
+    The two most commonly used representations for graphs are
+    1. Adjacency Matrix
+    2. Adjacency Lists
+
+// Implement Graph 
+
+    void addEdge(vector <int> adj[], int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    int main() 
+    {
+        // 1. Adjacency Matrix -> adjacency matrix for undirected graph time complexity: O(n)
+        int adj[n+1][n+1];
+        for(int i = 0; i < m; i++)
+        {
+            int u, v;
+            cin >> u >> v;
+            adj[u][v] = 1;
+            adj[v][u] = 1  // this statement will be removed in case of directed graph
+        }
+
+        // 2.1. Adjacency Lists -> adjacency list for undirected graph time complexity: O(2E)
+        vector <int> adj[6];
+        addEdge(adj, 0, 1);
+        addEdge(adj, 1, 2);
+
+        // 2.2. Adjacency Lists ->  adjacency list for directed graph time complexity: O(E)
+        for(int i = 0; i < m; i++)
+        {
+            int u, v;
+            // u —> v
+            cin >> u >> v;
+            adj[u].push_back(v);
+        }
+
+        Solution obj;
+        vector <int> ans = obj.bfsOfGraph(5, adj);
+        return 0;
+    }
+
+
+// ------------------------  IMPORTANT  Notes   ------------------->
+Question:- Difference between graph and binary tree traversal ?
+->  Both are almost same but in case of undirected graph , We need to keep track of visited node . When we traverse in the graph,
+    there is a possibility that same node will occure many times because of undirected nodes.
+
+
+------------------------------------ Depth First Search (DFS) -------------------------------------------------------------------->
+
+    class Solution {
+    private: 
+        void dfs(int node, vector<int> adj[], int vis[], vector<int> &ls) {
+            vis[node] = 1; 
+            ls.push_back(node); 
+            // traverse all its neighbours
+            for(auto it : adj[node]) {
+                // if the neighbour is not visited
+                if(!vis[it]) {
+                    dfs(it, adj, vis, ls); 
+                }
+            }
+        }
+    public:
+        // Function to return a list containing the DFS traversal of the graph.
+        vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+            int vis[V] = {0}; 
+            int start = 0;
+            // create a list to store dfs
+            vector<int> ls; 
+            // call dfs for starting node
+            dfs(start, adj, vis, ls); 
+            return ls; 
+        }
+    };
+
+
+------------------------------- Breadth First Search (BFS): Level Order Traversal ------------------------------------------->
+
+
+    vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+        int vis[V] = {0}; 
+        vis[0] = 1; 
+        queue<int> q;
+        // push the initial starting node 
+        q.push(0); 
+        vector<int> bfs; 
+        // iterate till the queue is empty 
+        while(!q.empty()) {
+           // get the topmost element in the queue 
+            int node = q.front(); 
+            q.pop(); 
+            bfs.push_back(node); 
+            // traverse for all its neighbours 
+            for(auto it : adj[node]) {
+                // if the neighbour has previously not been visited, 
+                // store in Q and mark as visited 
+                if(!vis[it]) {
+                    vis[it] = 1; 
+                    q.push(it); 
+                }
+            }
+        }
+        return bfs; 
+    }

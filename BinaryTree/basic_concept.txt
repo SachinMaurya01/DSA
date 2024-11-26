@@ -1,7 +1,7 @@
 <------------------------------Binary Tree--------------------------->
 
 
-Implement Binary Tree In C++:-
+// Implement Binary Tree In C++:-
 
 using namespace std;
 // Node structure for the binary tree

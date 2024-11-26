@@ -1,0 +1,192 @@
+Question 1: Detect A cycle in Undirected Graph using BFS
+Problem Statement: Given an undirected graph with V vertices and E edges, check whether it contains any cycle or not.
+
+LINK:- https://leetcode.com/problems/course-schedule/description/
+
+Intitution / Approach :-
+
+    1. Both bfs and dfs will be same we have to traverse its adjacency list while keep tracking of visited nodes.
+    2. If node is already visited and its not parent node . It means there is cycle exist.
+
+// Code Logic:-  ( For undirected Graph )
+
+    // DFS Approach:-
+
+        bool dfs(int node, int parent, int vis[], vector<int> adj[]) {
+            vis[node] = 1; 
+            // visit adjacent nodes
+            for(auto adjacentNode: adj[node]) {
+                // unvisited adjacent node
+                if(!vis[adjacentNode]) {
+                    if(dfs(adjacentNode, node, vis, adj) == true) 
+                        return true; 
+                }
+                // visited node but not a parent node
+                else if(adjacentNode != parent) return true; 
+            }
+            return false; 
+        }
+
+    // BFS Approach
+
+        bool detect(int src, vector<int> adj[], int vis[]) {
+        vis[src] = 1; 
+        // store <source node, parent node>
+        queue<pair<int,int>> q; 
+        q.push({src, -1}); 
+        // traverse until queue is not empty
+        while(!q.empty()) {
+            int node = q.front().first; 
+            int parent = q.front().second; 
+            q.pop(); 
+            
+            // go to all adjacent nodes
+            for(auto adjacentNode: adj[node]) {
+                // if adjacent node is unvisited
+                if(!vis[adjacentNode]) {
+                    vis[adjacentNode] = 1; 
+                    q.push({adjacentNode, node}); 
+                }
+                // if adjacent node is visited and is not it's own parent node
+                else if(parent != adjacentNode) {
+                    // yes it is a cycle
+                    return true; 
+                }
+            }
+        }
+        // there's no cycle
+        return false; 
+        }
+
+        bool isCycle(int V, vector<int> adj[]) {
+            // initialise them as unvisited 
+            int vis[V] = {0};
+            for(int i = 0;i<V;i++) {
+                if(!vis[i]) {
+                    // BFS 
+                    if(detect(i, adj, vis)) return true; 
+                    // DFS 
+                    if(dfs(i, -1, vis, adj) == true) return true; 
+                }
+            }
+            return false; 
+        }
+
+// Code Logic:-  ( For Directed Graph )
+
+    // BFS Traversal -> Kahn’s Algorithm(Topological Sorting Using BFS )
+
+    Intuition:
+        Since we know topological sorting is only possible for directed acyclic graphs(DAGs) if we apply Kahn’s algorithm
+        in a directed cyclic graph(A directed graph that contains a cycle), it will fail to find the topological 
+        sorting(i.e. The final sorting will not contain all the nodes or vertices)
+    
+    // Code:- 
+        bool isCyclic(int V, vector<int> adj[]) {
+            int indegree[V] = {0};
+            for (int i = 0; i < V; i++) {
+                for (auto it : adj[i]) {
+                    indegree[it]++;
+                }
+            }
+
+            queue<int> q;
+            for (int i = 0; i < V; i++) {
+                if (indegree[i] == 0) {
+                    q.push(i);
+                }
+            }
+
+            int cnt = 0;
+            // o(v + e)
+            while (!q.empty()) {
+                int node = q.front();
+                q.pop();
+                cnt++;
+                // node is in your topo sort
+                // so please remove it from the indegree
+
+                for (auto it : adj[node]) {
+                    indegree[it]--;
+                    if (indegree[it] == 0) q.push(it);
+                }
+            }
+
+            if (cnt == V) return false;
+            return true;
+        }
+
+    
+    // Topological Sort using DFS:-
+
+    // Code Logic:-
+
+        void findTopoSort(int node, vector < int > & vis, stack < int > & st, vector < int > adj[]) {
+            vis[node] = 1;
+
+            for (auto it: adj[node]) {
+            if (!vis[it]) {
+                findTopoSort(it, vis, st, adj);
+            }
+            }
+            st.push(node);
+        }
+
+        vector < int > topoSort(int N, vector < int > adj[]) {
+            stack < int > st;
+            vector < int > vis(N, 0);
+            for (int i = 0; i < N; i++) {
+                if (vis[i] == 0) {
+                findTopoSort(i, vis, st, adj);
+                }
+            }
+            vector < int > topo;
+            while (!st.empty()) {
+                topo.push_back(st.top());
+                st.pop();
+            }
+            return topo;
+        }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 2. Bipartite Check using DFS
+Problem Statement: Given an adjacency list of a graph adj of V no. of vertices having 0 based index. Check whether
+                the graph is bipartite or not.
+
+NOTE:- A graph is bipartite if the nodes can be partitioned into two independent sets A and B such that every edge in 
+        the graph connects a node in set A and a node in set B.
+
+LINK:- https://leetcode.com/problems/is-graph-bipartite/
+
+Approach/Intitution:- 
+1. Bipartite means all edges should comes into nodes and all nodes should comes into edges.
+    Ex:- [[1,3],[0,2],[1,3],[0,2]] . So , We can partition the nodes into two sets: {0, 2} and {1, 3}.
+2. We are usin color strategy, We start with 0 . We pick color 0 . For 0 index with traverse all its adjacency nodes with opposite
+   color. Same thing we will do for child nodes. 
+3. We store all color in the visited vector and side by side . We will be checking if visited vector has already visited with different 
+   color. It means we cannot Bipartite.
+
+// CODE LOGIC:-
+
+    bool dfs(vector<vector<int>>& graph, int color,int indx,vector<int>vis ){
+        vis[indx]=color;
+        for(auto it:graph[indx]){
+            if(vis[it]==-1){
+                if(dfs(graph,!color,it,vis)==false) return false;
+            }
+            else if(vis[it]==color) return false;
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vector<int>vis(n,-1);
+        for(int i=0;i<n;i++){
+            if(vis[i]== -1){
+                if(dfs(graph,0,i,vis)==false) return false;
+            }
+        }
+        return true;
+    }
