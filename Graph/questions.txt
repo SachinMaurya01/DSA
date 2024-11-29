@@ -422,3 +422,73 @@ Approach/Intitution:-
         reverse(path.begin(), path.end());
         return path;
     }
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 5: Bellman Ford Algorithm: G-41
+Problem Statement: Given a weighted, directed and connected graph of V vertices and E edges, Find the shortest distance of 
+                all the vertices from the source vertex S.
+
+LINK:- https://www.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/
+
+NOTE:- 
+    1) The bellman-Ford algorithm helps to find the shortest distance from the source node to all other nodes. 
+      But, we have already learned Dijkstra's algorithm (Dijkstra's algorithm article link) to fulfill the same purpose.
+      Now, the question is how this algorithm is different from Dijkstra's algorithm.
+
+    2) While learning Dijkstra's algorithm, we came across the following two situations, where Dijkstra's algorithm failed:
+       1. If the graph contains negative edges.
+       2. If the graph has a negative cycle (In this case Dijkstra's algorithm fails to minimize the distance,
+            keeps on running, and goes into an infinite loop. As a result it gives TLE error).
+
+    
+    3) Negative Cycle: A cycle is called a negative cycle if the sum of all its weights becomes negative. 
+
+
+Intitution/Approach:- 
+    1. In this algorithm, the edges can be given in any order. The intuition is to relax all the edges for N-1( N = no. of nodes)
+        times sequentially. After N-1 iterations, we should have minimized the distance to every node.
+    2. Again we iteration Nth times we check if anything is updating . It means there is a negative cycle.
+    
+
+    
+Q1:- why N-1 iteration ?
+-> If we try to iterate Nth iteration the path weight will be decreased in every iteration and in wrost case we need to iteration N-1
+    iteration.
+
+    Note: Points to remember since, in a graph of N nodes we will take at most N-1 edges to reach from the first to the last node,
+        we need exact N-1 iterations. It is impossible to draw a graph that takes more than N-1 edges to reach any node. 
+
+Q2:- How to detect a negative cycle in the graph ?
+-> In order to check the existence of a negative cycle, we will relax the edges one more time after the completion of N-1 iterations.
+    And if in that Nth iteration, it is found that further relaxation of any edge is possible, we can conclude that the graph has 
+    a negative cycle. Thus, the Bellman-Ford algorithm detects negative cycles.
+
+
+// CODE LOGIC:-
+    vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
+		vector<int> dist(V, 1e8);
+		dist[S] = 0;
+		for (int i = 0; i < V - 1; i++) {
+			for (auto it : edges) {
+				int u = it[0];
+				int v = it[1];
+				int wt = it[2];
+				if (dist[u] != 1e8 && dist[u] + wt < dist[v]) {
+					dist[v] = dist[u] + wt;
+				}
+			}
+		}
+		// Nth relaxation to check negative cycle
+		for (auto it : edges) {
+			int u = it[0];
+			int v = it[1];
+			int wt = it[2];
+			if (dist[u] != 1e8 && dist[u] + wt < dist[v]) {
+				return { -1};
+			}
+		}
+
+
+		return dist;
+	}
