@@ -492,3 +492,66 @@ Q2:- How to detect a negative cycle in the graph ?
 
 		return dist;
 	}
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 6: Floyd Warshall Algorithm: G-42
+Problem Statement: The problem is to find the shortest distances between every pair of vertices in a given 
+        edge-weighted directed graph. The graph is represented as an adjacency matrix of size n*n. 
+        Matrix[i][j] denotes the weight of the edge from i to j. If Matrix[i][j]=-1, it means there is no
+        edge from i to j.
+
+LINK:- https://www.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1
+
+NOTE:- 1. Floyd Warshall algorithm is a multi-source shortest path algorithm and it helps to detect negative cycles as well.
+       2. It works on both directed and undirected graph ( need to just convert it into directed graph).
+
+Question:- What will happen if we will apply Dijkstra’s algorithm for this purpose?
+        1. If the graph has a negative cycle: We cannot apply Dijkstra’s algorithm to the graph which contains
+            a negative cycle. It will give TLE error in that case.
+        2. If the graph does not contain a negative cycle: In this case, we will apply Dijkstra’s algorithm 
+            for every possible node to make it work like a multi-source shortest path algorithm like Floyd Warshall.
+            The time complexity of Floyd Warshall is O(V3)(Which we will discuss later in this article) whereas if we
+            apply Dijkstra’s algorithm for the same purpose the time complexity reduces to O(V*(E*logV)) 
+            (where v = no. of vertices). 
+
+// Intitution / Approach:-
+1. We are going to count all shortest path from 0 to n size. 
+2. Path (a,b) is like min(path(a,b) , (path(a,c) + path (c,b)) ). c will be the size of matrix 0 to n.
+3. To detect negative cycle , we check if there is any negative edges after computing shortest path.
+
+
+// CODE LOGIC:-
+
+    void shortest_distance(vector<vector<int>>&matrix) {
+		int n = matrix.size();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (matrix[i][j] == -1) {
+					matrix[i][j] = 1e9;
+				}
+				if (i == j) matrix[i][j] = 0;
+			}
+		}
+
+		for (int k = 0; k < n; k++) {
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+                    // To compute path from 0 to n
+					matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+				}
+			}
+		}
+
+
+
+
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (matrix[i][j] == 1e9) {
+					matrix[i][j] = -1;
+				}
+			}
+		}
+	}

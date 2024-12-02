@@ -1,0 +1,11 @@
+// Array methods:- 
+
+5. reserve() :- In C++, reserve() is a method that is used with dynamic containers like std::vector to 
+                pre-allocate memory for the container, reducing the need for reallocations as elements are
+                added to it.
+                Example:-   vector<vector<int>> arrangement;
+                            int pathSize = path.size();
+                            arrangement.reserve(pathSize - 1);
+    Note:-  that this does not change the size of arrangement, it only affects the capacity (the maximum 
+            number of elements the vector can hold without needing to reallocate memory).    
+            
