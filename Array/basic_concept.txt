@@ -1,5 +1,19 @@
 // Array methods:- 
 
+4. lower_bound() and upper_bound() :- 
+
+        lower_bound() -> lower_bound() method can be used to find the first value that is greater than or
+                equal to given value in the vector.
+                Example:- int indx = lower_bound(temp.begin(),temp.end(),nums[i]) - temp.begin(); // - temp.begin(); to get index
+        
+        upper_bound() -> upper_bound() method can be used to find the first value that is greater than to 
+                given value in the vector.
+                Example:- int indx = lower_bound(temp.begin(),temp.end(),nums[i])
+
+        NOTE:-  1. It needs the vector to be sorted because it implements binary search to find the value.
+                2. These above function uses binary search internally.
+                
+
 5. reserve() :- In C++, reserve() is a method that is used with dynamic containers like std::vector to 
                 pre-allocate memory for the container, reducing the need for reallocations as elements are
                 added to it.
