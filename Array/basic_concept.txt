@@ -23,3 +23,19 @@
     Note:-  that this does not change the size of arrangement, it only affects the capacity (the maximum 
             number of elements the vector can hold without needing to reallocate memory).    
             
+
+6. Kadane Alogorith :- 
+        Intitution:- The idea of Kadane’s algorithm is to traverse over the array from left to right and for each 
+                element, find the maximum sum among all subarrays ending at that element. The result will be the 
+                maximum of all these values. 
+        Example:- 
+                int maxSubarraySum(vector<int> &arr) {
+                        int res = arr[0];
+                        int maxEnding = arr[0];
+                        for (int i = 1; i < arr.size(); i++) {
+                                maxEnding = max(maxEnding + arr[i], arr[i]);
+                                // Update res if maximum subarray sum ending at index i > res
+                                res = max(res, maxEnding);
+                        }
+                        return res;
+                }
