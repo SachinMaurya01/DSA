@@ -1,0 +1,165 @@
+<-----------------------------------------------------     Dynamic Programming    ----------------------------------------------->
+
+1. Dynamic Programming can be described as storing answers to various sub-problems to be used later whenever
+    required to solve the main problem.
+
+2. The two common dynamic programming approaches are:
+
+    -> Memoization: Known as the “top-down” dynamic programming, usually the problem is solved in the direction
+            of the main problem to the base cases.
+
+    -> Tabulation: Known as the “bottom-up '' dynamic programming, usually the problem is solved in the direction
+            of solving the base cases to the main problem
+
+Note: The base case does not always mean smaller input. It depends upon the implementation of the algorithm.
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Example -> Coin Change Problem:-
+
+Problem Statement:- We are given an array Arr with N distinct coins and a target. We have an infinite supply of 
+    each coin denomination. We need to find the number of ways we sum up the coin values to give us the target.
+
+// Approach/ Intitution:-
+1. First we will start with max coin, We call a recusion for nth coin.
+2. In recusive Call, We check if :-
+    -> index == 0 mean we have amount which is less than ( 1 -> nth coins ). We check if (amount % coins[0] == 0);
+        amount if completely divisible by Oth coins.
+    -> Then we have 2 options, whether we include that coin in our res or not.
+    -> If amount is greater than coins[indx] then take it 
+
+// Recusive Solution:-
+
+    // Code Logic:-
+
+        long countWaysToMakeChangeUtil(vector<int>& arr, int ind, int T, vector<vector<long>>& dp) {
+            // Base case: if we're at the first element
+            if (ind == 0) {
+                // Check if the target sum is divisible by the first element
+                return (T % arr[0] == 0);
+            }
+            
+            // Calculate the number of ways without taking the current element
+            long notTaken = countWaysToMakeChangeUtil(arr, ind - 1, T, dp);
+            
+            // Calculate the number of ways by taking the current element
+            long taken = 0;
+            if (arr[ind] <= T)
+                taken = countWaysToMakeChangeUtil(arr, ind, T - arr[ind], dp);
+                
+            return notTaken + taken;
+        }
+
+---------------------------------------------->
+
+// Memorize Solution:- 
+
+    1. In recusive call , we know that we calling recursion for already calculate part. So, its increasing
+        our time Complexity. 
+    2. To avoid repeated call , we will be using a 2D vector to store calculate res.
+    3. Before calling any recursive call we check if we already calculated.
+
+    Time Complexity: O(N*T)
+    Reason: There are N*W states therefore at max ‘N*T’ new problems will be solved.
+    Space Complexity: O(N*T) + O(N)
+
+    NOTE:- Memorizion is a top-down’ approach where we start from the main case and reach the base case.
+
+    // Code Logic:-
+
+        long countWaysToMakeChangeUtil(vector<int>& arr, int ind, int T, vector<vector<long>>& dp) {
+            // Base case: if we're at the first element
+            if (ind == 0) {
+                // Check if the target sum is divisible by the first element
+                return (T % arr[0] == 0);
+            }
+            
+            // If the result for this index and target sum is already calculated, return it
+            if (dp[ind][T] != -1)
+                return dp[ind][T];
+                
+            // Calculate the number of ways without taking the current element
+            long notTaken = countWaysToMakeChangeUtil(arr, ind - 1, T, dp);
+            
+            // Calculate the number of ways by taking the current element
+            long taken = 0;
+            if (arr[ind] <= T)
+                taken = countWaysToMakeChangeUtil(arr, ind, T - arr[ind], dp);
+                
+            // Store the sum of ways in the DP table and return it
+            return dp[ind][T] = notTaken + taken;
+        }
+
+---------------------------------------------->
+
+// Tabulation:- 
+    Tabulation is a ‘bottom-up’ approach where we start from the base case and reach the final answer that we want.
+    NOTE:-  In Tabulation, we solve problem by using iterative approach.
+
+    // Code Logic:-
+
+        long countWaysToMakeChange(vector<int>& arr, int n, int T) {
+        vector<vector<long>> dp(n, vector<long>(T + 1, 0)); // Create a DP table
+
+            // Initializing base condition
+            for (int i = 0; i <= T; i++) {
+                // if the target value is divisible by the first coin’s value, we set the cell's value as 1 or else 0.
+                if (i % arr[0] == 0)  
+                    dp[0][i] = 1;
+            }
+
+            for (int ind = 1; ind < n; ind++) {
+                for (int target = 0; target <= T; target++) {
+                    // Recusion Logic
+                    long notTaken = dp[ind - 1][target];
+
+                    long taken = 0;
+                    if (arr[ind] <= target)
+                        taken = dp[ind][target - arr[ind]];
+
+                    dp[ind][target] = notTaken + taken;
+                }
+            }
+
+            return dp[n - 1][T];
+        }
+
+---------------------------------------------->
+
+// Tabulation Space Optimisation :- 
+
+    // Algorithm / Intuition:-
+        1.  we need only the previous row values (say prev). So, we don’t need to store an entire array. Hence we  
+            can space optimize it.
+
+        NOTE:- We first need to initialize the first row as we had done in the tabulation approach.
+
+    // Code Logic:-
+        long countWaysToMakeChange(vector<int>& arr, int n, int T) {
+            vector<long> prev(T + 1, 0);  // Create a vector to store the previous DP state
+
+            // Initialize base condition
+            for (int i = 0; i <= T; i++) {
+                if (i % arr[0] == 0)
+                    prev[i] = 1;  // There is one way to make change for multiples of the first coin
+                // Else condition is automatically fulfilled, as the prev vector is initialized to zero
+            }
+
+            for (int ind = 1; ind < n; ind++) {
+                vector<long> cur(T + 1, 0);  // Create a vector to store the current DP state
+                for (int target = 0; target <= T; target++) {
+                    long notTaken = prev[target];  // Number of ways without taking the current coin
+
+                    long taken = 0;
+                    if (arr[ind] <= target)
+                        taken = cur[target - arr[ind]];  // Number of ways by taking the current coin
+                        
+                    cur[target] = notTaken + taken;  // Total number of ways for the current target
+                }
+                prev = cur;  // Update the previous DP state with the current state for the next coin
+            }
+
+            return prev[T];  // Return the total number of ways to make change for the target
+        }
+
