@@ -77,3 +77,55 @@ LINK:- https://leetcode.com/problems/minimum-path-sum/description/
         vector<vector<int>> dp(n, vector<int>(m, -1)); // DP table to memoize results
         return minSumPathUtil(n - 1, m - 1, matrix, dp); // Start from the bottom-right corner
     }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 3:- Subset sum equal to target (DP- 14)
+Problem Description: 
+    Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the
+    elements in both subsets is equal or false otherwise.
+
+LINK:- https://leetcode.com/problems/partition-equal-subset-sum/description/
+
+// Intitution / Approach :-
+1. To find equal subset sum of array, we need to find s1 only (totalsum = s1 + s2) . If we find s1 , then logically
+    remaining value sum is equal to s2. 
+2. To find s1, we choose same knapsack solution. We have two option to choose that number or not to achieve target value.
+3. In return statement , if either of taken or notTaken is true. It means there is subset sum which is equal to s1/s2.
+
+// Code Logic:- 
+    bool subsetSumUtil(int ind, int target, vector<int>& arr, vector<vector<int>>& dp) {
+        // If the target sum is 0, we have found a subset
+        if (target == 0)
+            return true;
+
+        // If we have reached the first element in 'arr'
+        if (ind == 0)
+            return arr[0] == target;
+
+        // If the result for this subproblem has already been computed, return it
+        if (dp[ind][target] != -1)
+            return dp[ind][target];
+
+        // Try not taking the current element into the subset
+        bool notTaken = subsetSumUtil(ind - 1, target, arr, dp);
+
+        // Try taking the current element into the subset if it doesn't exceed the target
+        bool taken = false;
+        if (arr[ind] <= target)
+            taken = subsetSumUtil(ind - 1, target - arr[ind], arr, dp);
+
+        // Store the result in the dp array to avoid recomputation
+        return dp[ind][target] = notTaken || taken;
+    }
+
+
+    bool canPartition(vector<int>& nums) {
+        int n=nums.size();
+        int sum = accumulate(nums.begin(),nums.end(),0);
+        if(sum % 2 != 0) return false;
+        int target = sum/2;
+        vector<vector<int>>dp(n,vector<int>(target+1,-1));
+        return helper(nums,n-1,target,dp);
+    }
