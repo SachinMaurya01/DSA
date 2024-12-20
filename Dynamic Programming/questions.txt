@@ -166,3 +166,48 @@ LINK:- https://leetcode.com/problems/partition-equal-subset-sum/description/
         vector<vector<int>>dp(n,vector<int>(target+1,-1));
         return helper(nums,n-1,target,dp);
     }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 3:-  Minimum Cost to Cut a Stick
+Problem Description: 
+    Given an integer array cuts where cuts[i] denotes a position you should perform a cut at.You should perform
+    the cuts in order, you can change the order of the cuts as you wish. The cost of one cut is the length of the
+    stick to be cut, the total cost is the sum of costs of all cuts. When you cut a stick, it will be split into 
+    two smaller sticks
+
+LINK:- https://leetcode.com/problems/minimum-cost-to-cut-a-stick/description/
+
+// Intitution / Approach :-
+    1. We are going to sort the cuts array. So, that from whereever we start cutting if left and left portion will
+        symmetrical.
+    2. We are going to iterate from 0 to n( length of stick ). In each cut we are going to calculate its
+        left cost ( 0 to cuts[i]) and right cost ( cuts[i] to n).
+    3. For each cut , we have end_stick - start_stick ( before cutting the stick length ) + left_cost + right_cost and 
+        we are going to store min cost.
+
+// Code Logic:- 
+
+    // Memorization
+        int dp[102][102];
+        int solve(vector<int>&cuts, int left,int right){
+            if(right - left <= 1) return 0;
+            if(dp[left][right] != -1) return dp[left][right];
+
+            int cost = 1e9;
+            for(int i=left+1;i<=right-1;i++){
+                int left_cost = solve(cuts,left,i);
+                int right_cost = solve(cuts,i,right);
+                int cur_cost = (cuts[right] - cuts[left]) + left_cost + right_cost;
+                cost = min(cost,cur_cost);
+            }
+            return dp[left][right] = cost;
+        }
+        int minCost(int n, vector<int>& cuts) {
+            memset(dp,-1,sizeof(dp));
+            cuts.push_back(0);
+            cuts.push_back(n);
+            sort(cuts.begin(),cuts.end());
+            return solve(cuts,0,cuts.size()-1);
+        }
