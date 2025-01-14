@@ -83,6 +83,9 @@ Intitution/ Approach:- ( Optimal Solution )
     }
 
 
+------------------------------------------------------------------------------------------------------------------------------->
+
+
 Question 2. Longest Consecutive Sequence in an Array
 Problem Statement: You are given an array of ‘N’ integers. You need to find the length 
     of the longest sequence which contains the consecutive elements.
@@ -123,4 +126,44 @@ LINK:- https://leetcode.com/problems/longest-consecutive-sequence/description/
         }
         return longest;
 
+    }
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+Question 3. Length of the longest subarray with zero Sum
+Problem Statement: Given an array containing both positive and negative integers, we have
+     to find the length of the longest subarray with the sum of all elements equal to zero.
+
+LINK:- https://www.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
+
+// Intitution/Approach ( Optimal )
+1. We can use hash map to keep track of previous sum of values.
+2. Whenever we find same sum coming second time. We know that there will be zero values
+    between first and second sum value .
+
+// Code Logic:- 
+    int maxLen(int A[], int n)
+    {
+        // Your code here
+        unordered_map<int,int> mpp; 
+        int maxi = 0;
+        int sum = 0; 
+        for(int i = 0;i<n;i++) {
+            sum += A[i]; 
+            if(sum == 0) {
+                maxi = i + 1; 
+            }
+            else {
+                // Check sum is coming twice if yes then we have target value lies between in it
+                if(mpp.find(sum) != mpp.end()) {
+                    maxi = max(maxi, i - mpp[sum]); 
+                }
+                else {
+                    mpp[sum] = i;
+                }
+            }   
+        }
+
+        return maxi; 
     }
