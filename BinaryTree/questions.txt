@@ -6,7 +6,7 @@ Question 1. Right/Left view of binary tree
 
 Link :- https://www.geeksforgeeks.org/problems/left-view-of-binary-tree/1
 
-Intitution / Approach :-
+// Intitution / Approach :-
 
 1. we can solve it by using bfs , pick Oth element for left view and last element for right view.
 2. For Optimal, traversal right side for right view and keep track of lvl at same time. 
