@@ -171,3 +171,70 @@ LINK:- https://www.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
 
 ------------------------------------------------------------------------------------------------------------------------------->
 
+Question 4. Trapping Rain Water
+Problem Statement: Given an array of non-negative integers representation elevation of ground.
+    Your task is to find the water that can be trapped after rain.
+
+LINK:- https://leetcode.com/problems/trapping-rain-water/description/
+
+// Approach / Intitution:-
+    1. We know that for each index, we are looking for minimum elevation of maxLeft and maxRight .
+
+    // Brute force -
+        1. We can prefix and suffix to store max left and max right for every index.
+        2. At last, we calculate it res with min( maxleft[i],maxRight[i] ) - cur[i];
+
+    // Optimal -
+        1. We can use two pointer to keep track of maxLeft and maxRight.
+        2. For every index from 0 to n-1. We check if height[left] <= height[right].
+            -> Inside we will check if cur left or right is greater that height[left] , height[right].
+                If yes, we will update the maxLeft, maxRight.
+            -> If not then we will add it into our res.
+
+    
+// Code Logic:-
+
+    // Brute Force
+        int trap(vector < int > & arr) {
+            int n = arr.size();
+            int prefix[n], suffix[n];
+            prefix[0] = arr[0];
+            for (int i = 1; i < n; i++) {
+                prefix[i] = max(prefix[i - 1], arr[i]);
+            }
+            suffix[n - 1] = arr[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                suffix[i] = max(suffix[i + 1], arr[i]);
+            }
+            int waterTrapped = 0;
+            for (int i = 0; i < n; i++) {
+                waterTrapped += min(prefix[i], suffix[i]) - arr[i];
+            }
+            return waterTrapped;
+        }
+
+    // Optimal Approach -
+        int trap(vector < int > & height) {
+            int n = height.size();
+            int left = 0, right = n - 1;
+            int res = 0;
+            int maxLeft = 0, maxRight = 0;
+            while (left <= right) {
+                if (height[left] <= height[right]) {
+                    if (height[left] >= maxLeft) {
+                        maxLeft = height[left];
+                    } else {
+                        res += maxLeft - height[left];
+                    }
+                    left++;
+                } else {
+                    if (height[right] >= maxRight) {
+                        maxRight = height[right];
+                    } else {
+                        res += maxRight - height[right];
+                    }
+                    right--;
+                }
+            }
+            return res;
+        }
