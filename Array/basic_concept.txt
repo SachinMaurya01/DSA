@@ -39,3 +39,7 @@
                         }
                         return res;
                 }
+
+
+7. Count()-> To find occurence of number in array.
+        Example: int n = count(nums.begin(), nums.end(), k);
