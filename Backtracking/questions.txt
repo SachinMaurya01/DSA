@@ -1,0 +1,136 @@
+Question 1. N Queen Problem | Return all Distinct Solutions to the N-Queens Puzzle
+
+Problem Statement: The n-queens is the problem of placing n queens on n × n chessboard
+    such that no two queens can attack each other. Given an integer n, return all distinct
+    solutions to the n -queens puzzle. Each solution contains a distinct boards configuration
+    of the queen's placement, where ‘Q’ and ‘.’ indicate queen and empty space respectively.
+
+LINK:- https://leetcode.com/problems/n-queens/description/
+
+// Intitution / Approach
+
+Note:- Queens can move horizonal , vertical and diagonally ( all 4 directions ).
+
+1. We are going to trying all possible ways ( backtracking ). First , we will start with 
+    0 to n column and call recursion for all columns.
+2. In recursion , we will check if we place queen in particular row or not. We have check
+    in three direction , first in that row , second in upper left diagonal and lower left
+    diagonal. We ignore other like vertical and right diagonal because we are iterating on 
+    columns wise.
+3. We can easily check 3 condition by for loop col-- ( hoziontal ) , row-- col-- (upper left
+    diagonal), row++ col-- ( lower left digonal ).
+
+        There is a optimal way, we can make a 2D vector for upper and lower left
+    diagonal. We know that we fill this with row + col  all its diagonal value will be left.
+    For upper digonal , we can start filling it with bottom left corner ( row + col) and for lower 
+    top left corner ( col + row ).
+
+        So, we can do one thing we can optimise it to 1D array. If we check for lower diagonal 
+    ( lowerDiagonal[row + col] ), for upper ( upperDiagonal[n - 1 + col - row] ). 
+
+    Note: Upper diagonal ( (col - row) => for upper diagonal , (n-1) => it shift regative index
+        to positive. )
+
+
+// Code Logic:- 
+
+    class Solution {
+    public:
+        void solve(int col, vector < string > & board, vector <vector<string>> & ans, vector<int>
+          & leftrow, vector < int > & upperDiagonal, vector < int > & lowerDiagonal, int n) {
+            if (col == n) {
+                ans.push_back(board);
+                return;
+            }
+            for (int row = 0; row < n; row++) {
+                if (leftrow[row] == 0 && lowerDiagonal[row + col] == 0 && 
+                  upperDiagonal[n - 1 + col - row] == 0) {
+                    board[row][col] = 'Q';
+                    leftrow[row] = 1;
+                    lowerDiagonal[row + col] = 1;
+                    upperDiagonal[n - 1 + col - row] = 1;
+                    solve(col + 1, board, ans, leftrow, upperDiagonal, lowerDiagonal, n);
+                    board[row][col] = '.';
+                    leftrow[row] = 0;
+                    lowerDiagonal[row + col] = 0;
+                    upperDiagonal[n - 1 + col - row] = 0;
+                }
+            }
+        }
+
+    public:
+        vector < vector < string >> solveNQueens(int n) {
+        vector < vector < string >> ans;
+        vector < string > board(n);
+        string s(n, '.');
+        for (int i = 0; i < n; i++) {
+            board[i] = s;
+        }
+        vector < int > leftrow(n, 0), upperDiagonal(2 * n - 1, 0), lowerDiagonal(2 * n - 1, 0);
+        solve(0, board, ans, leftrow, upperDiagonal, lowerDiagonal, n);
+        return ans;
+        }
+    };
+
+
+---------------------------------------------------------------------------------------------------------------------------->
+
+
+Question 2. Sudoku Solver
+
+Problem Statement:
+    Given a 9x9 incomplete sudoku, solve it such that it becomes valid sudoku. Valid sudoku has the
+    following properties.
+        1. All the rows should be filled with numbers(1 - 9) exactly once.
+        2. All the columns should be filled with numbers(1 - 9) exactly once.
+        3. Each 3x3 submatrix should be filled with numbers(1 - 9) exactly once.
+
+    Note: Character '.' indicates empty cell.
+
+// LINK:- https://leetcode.com/problems/sudoku-solver/description/
+
+// Intitution / Approach:- 
+
+    1. In 9 * 9 Sudoku, we have to all row , columns and 3 * 3 Sudoku should not contain any same number.
+    2. First we iterate to all index . If we found any '.' , then we call try to fit all 0 to 9 char 
+        for every char . We will call recursion , if for any recursion call we will get true. we will return true.
+    3. We can easily check row and column values. But for checking 3 * 3 Sudoku, we can use 
+        board[3*(row/3) + i/3][3*(col/3) + i%3]
+            -> 3*(row/3) + i/3 :- 3*(row/3) will the starting row point and i/3 will change the row.
+            -> 3*(col/3) + i%3 :- 3*(col/3) will the starting col point and i%3 will chnage the col.
+    
+// Code Logic:- 
+    void solveSudoku(vector<vector<char>>& board) {
+         solve(board);
+    }
+    private:
+    bool solve(vector<vector<char>>& board) {
+        int n= board.size();
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                if(board[i][j] == '.') {
+                    for(char c='1'; c<='9'; c++) {
+                        if(isAns(board, i, j, c)) {
+                            board[i][j] = c;
+                            if(solve(board)) {
+                                return true;
+                            } else {
+                                board[i][j] = '.'; 
+                            }
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool isAns(vector<vector<char>>& board, int row, int col, char c) {
+        for(int i=0; i<9; i++) {
+            if(board[i][col] == c || board[row][i] == c || board[3*(row/3) + i/3][3*(col/3) + i%3] == c) {
+                return false;
+            }
+        }
+        return true;
+    }
