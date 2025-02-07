@@ -1,0 +1,77 @@
+Question 1. Median of Two Sorted Arrays of different sizes
+
+Problem Statement: Given two sorted arrays arr1 and arr2 of size m and n respectively,
+    return the median of the two sorted arrays. The median is defined as the middle value
+    of a sorted list of numbers. In case the length of the list is even, the median is the
+    average of the two middle elements.
+
+LINK:- https://leetcode.com/problems/median-of-two-sorted-arrays/
+
+
+// Intitution / Approach
+
+    // Brute Force:-
+        1. Create a new vector then fill elemented in sorted form.
+        2. Check the length if even then return ( mid1 + mid2)/ 2 otherwise mid1;
+
+    // Optimal:- 
+        1. First we make the first array shorter by checking it .
+        2. Then we will iterate the shorter array , we have left = (n1 + n2 + 1) / 2;
+        3. While iterating , we will get mid1 = (low+high) / 2 and mid2 = left - mid1;
+        4. After that we declare 4 variable l1, l2 ( INT_MIN ) r1, r2 ( INT_MAX ) 
+        5. We assign value based on mids < n1 ( r1, r2) and mids -1 >= 0 ( l1, l2 ).
+        6. Then we will check (l1 <= r2 && l2 <= r1) means we found halves So,
+            -> We will check if length is odd the max(l1,l2);
+            -> else ((double)(max(l1,l2) + min(r1,r2))) / 2.0;
+        7. else if l1 > l2 , then high mid1-1;
+        8. else low = mid1+1
+
+
+// CODE LOGIC:- 
+
+    double findMedianSortedArrays(vector<int> &nums1, vector<int> &nums2) {
+        int n1 = nums1.size(), n2 = nums2.size();
+        
+        // Ensure nums1 is the smaller array for simplicity
+        if (n1 > n2)
+            return findMedianSortedArrays(nums2, nums1);
+        
+        int n = n1 + n2;
+        int left = (n1 + n2 + 1) / 2; // Calculate the left partition size
+        int low = 0, high = n1;
+        
+        while (low <= high) {
+            int mid1 = (low + high) >> 1; // Calculate mid index for nums1
+            int mid2 = left - mid1; // Calculate mid index for nums2
+            
+            int l1 = INT_MIN, l2 = INT_MIN, r1 = INT_MAX, r2 = INT_MAX;
+            
+            // Determine values of l1, l2, r1, and r2
+            if (mid1 < n1)
+                r1 = nums1[mid1];
+            if (mid2 < n2)
+                r2 = nums2[mid2];
+            if (mid1 - 1 >= 0)
+                l1 = nums1[mid1 - 1];
+            if (mid2 - 1 >= 0)
+                l2 = nums2[mid2 - 1];
+            
+            if (l1 <= r2 && l2 <= r1) {
+                // The partition is correct, we found the median
+                if (n % 2 == 1)
+                    return max(l1, l2);
+                else
+                    return ((double)(max(l1, l2) + min(r1, r2))) / 2.0;
+            }
+            else if (l1 > r2) {
+                // Move towards the left side of nums1
+                high = mid1 - 1;
+            }
+            else {
+                // Move towards the right side of nums1
+                low = mid1 + 1;
+            }
+        }
+        
+        return 0; // If the code reaches here, the input arrays were not sorted.
+    }
