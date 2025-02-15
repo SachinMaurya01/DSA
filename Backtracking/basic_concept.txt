@@ -42,17 +42,17 @@ Example:-  N-Queens Problems
             }
             for (int row = 0; row < n; row++) {
                 if (leftrow[row] == 0 && lowerDiagonal[row + col] == 0 && 
-                  upperDiagonal[n - 1 + col - row] == 0) {
+                  upperDiagonal[ ( n - 1 ) +  (row - col) ] == 0) {
                     board[row][col] = 'Q';
                     leftrow[row] = 1;
                     lowerDiagonal[row + col] = 1;
-                    upperDiagonal[n - 1 + col - row] = 1;
+                    upperDiagonal[ ( n - 1 ) +  (row - col) ] = 1;
                     solve(col + 1, board, ans, leftrow, upperDiagonal, lowerDiagonal, n);
                     // backtrack mark all value to its previous state
                     board[row][col] = '.';
                     leftrow[row] = 0;
                     lowerDiagonal[row + col] = 0;
-                    upperDiagonal[n - 1 + col - row] = 0;
+                    upperDiagonal[ ( n - 1 ) +  (row - col) ] = 0;
                 }
             }
         }
@@ -73,3 +73,6 @@ Example:-  N-Queens Problems
 
     Time Complexity: Exponential in nature since we are trying out all ways, to be precise it is O(N! * N).
     Space Complexity: O(N)
+
+    NOTE:- For checking upper diagonal , we can (row - col) but its value will be negative and we can't create
+            negative size array. So, we can add ( n - 1 )  -> [ ( n - 1 ) +  (row - col) ] in it to avoid negative index.
