@@ -1,0 +1,112 @@
+<--------------------------------------------------------------     HEAP  ------------------------------------------------------->
+
+// Defination
+    The heap data structure can be implemented in a range using STL which provides faster max or min item
+    retrieval, and faster insertion and deletion on sorted data and also works as a sub-routine for heapsort.
+
+-> STL Functions for Heap Operations:- 
+
+    1. make_heap(): Converts given range to a heap.
+        Ex:- make_heap(v1.begin(), v1.end());
+
+    2. push_heap(): Arrange the heap after insertion at the end.
+        Ex:- push_heap(vc.begin(), vc.end());
+
+    3. pop_heap(): Moves the max element at the end for deletion.
+        Ex:- pop_heap(vc.begin(), vc.end());
+
+    4. sort_heap(): Sort the elements of the max_heap to ascending order.
+        Ex:-  sort_heap(v1.begin(), v1.end());
+
+    5. is_heap(): Checks if the given range is max_heap.
+        Ex:- is_heap(v1.begin(), v1.end());
+
+    6. is_heap_until(): Returns the largest sub-range that is max_heap.
+        Ex:- is_heap_until(v1.begin(), v1.end());
+
+
+    NOTE:- All of the above functions are defined inside the <algorithm> header file.
+
+
+
+=> Priority Queue in C++ Standard Template Library (STL)
+
+// Defination
+    A C++ priority queue is a type of container adapter, specifically designed such that the first 
+    element of the queue is either the greatest or the smallest of all elements in the queue, and
+    elements are in non-increasing or non-decreasing order .
+
+    NOTE:- Priority queues are built on the top of the max heap and use an array or vector as an internal structure.
+
+    There are of two types :- 
+
+    a. Min heap:- It store the min value at top and max at last.
+        Defination :- priority_queue <Type, vector<Type>, ComparisonType > min_heap;
+
+            * ‘vector<int>’ is the type of internal container used to store these elements.
+                    std::priority_queue is not a container in itself but a container adopter.
+
+            * ‘greater<int>‘ is a custom comparison function. This determines how the elements
+                    are ordered within the priority queue.
+
+    b. Max heap:- It store the max value at top and min at last.
+        Defination :- priority_queue<int> pq
+
+    Some Inbuilt methods:- 
+        1. priority_queue::empty()	Returns whether the queue is empty.
+        2. priority_queue::size() 	Returns the size of the queue.
+        3. priority_queue::top()	Returns a reference to the topmost element of the queue.
+        4. priority_queue::push() 	Adds the element ‘g’ at the end of the queue.
+        5. priority_queue::pop()	Deletes the first element of the queue.
+        6. priority_queue::swap()	Used to swap the contents of two queues provided the queues must be of the same type, although sizes may differ.
+        7. priority_queue::emplace()	Used to insert a new element into the priority queue container.
+
+
+Q1:- Build a min heap?
+
+    // C++ program to use priority_queue to implement Min Heap for user defined class 
+    #include <bits/stdc++.h> 
+    using namespace std; 
+
+    // User defined class, Point 
+    class Point { 
+    int x, y; 
+    public: 
+        Point(int x, int y) 
+            { 
+                this->x = x; 
+                this->y = y; 
+            } 
+            int getX() const { return x; } 
+            int getY() const { return y; } 
+        }; 
+
+    // To compare two points 
+    class myComparator { 
+    public: 
+        int operator() (const Point& p1, const Point& p2)  { 
+            return p1.getX() > p2.getX(); 
+        } 
+    }; 
+
+    // Driver code 
+    int main () 
+    { 
+        // Creates a Min heap of points (order by x coordinate) 
+        priority_queue <Point, vector<Point>, myComparator > pq; 
+
+        // Insert points into the min heap 
+        pq.push(Point(10, 2)); 
+        pq.push(Point(2, 1)); 
+        pq.push(Point(1, 5)); 
+
+        // One by one extract items from min heap 
+        while (pq.empty() == false) 
+        { 
+            Point p = pq.top(); 
+            cout << "(" << p.getX() << ", " << p.getY() << ")"; 
+            cout << endl; 
+            pq.pop(); 
+        } 
+        return 0; 
+    } 

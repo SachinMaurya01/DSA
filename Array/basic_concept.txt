@@ -1,4 +1,4 @@
-// Array methods:- 
+<------------------------------  Array methods --------------------------->
 
 4. lower_bound() and upper_bound() :- 
 
