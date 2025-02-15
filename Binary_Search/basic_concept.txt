@@ -1,2 +1,35 @@
-<------------------------------ Binary Search --------------------------->
+<----------------------------------------------- Binary Search -------------------------------------------->
 
+// Defination
+    Binary Search Algorithm is a searching algorithm used in a sorted array by repeatedly
+    dividing the search interval in half. The idea of binary search is to use the information
+    that the array is sorted and reduce the time complexity to O(log N). 
+
+// Binary Search Algorithm
+    Below is the step-by-step algorithm for Binary Search:
+
+    1. Divide the search space into two halves by finding the middle index “mid”. 
+    2. Compare the middle element of the search space with the key. 
+    3. If the key is found at middle element, the process is terminated.
+    4. If the key is not found at middle element, choose which half will be used as the next search space.
+        a. If the key is smaller than the middle element, then the left side is used for next search.
+        b. If the key is larger than the middle element, then the right side is used for next search.
+    5. This process is continued until the key is found or the total search space is exhausted.
+
+// Key Points:- 
+
+    1. For binary serach , Array should be in sorted order.
+
+
+=> There are some in-built methods in c++ of binary search:- 
+
+        lower_bound() -> lower_bound() method can be used to find the first value that is greater than or
+                equal to given value in the vector.
+                Example:- int indx = lower_bound(temp.begin(),temp.end(),nums[i]) - temp.begin(); // - temp.begin(); to get index
+        
+        upper_bound() -> upper_bound() method can be used to find the first value that is greater than to 
+                given value in the vector.
+                Example:- int indx = lower_bound(temp.begin(),temp.end(),nums[i])
+
+        NOTE:-  1. It needs the vector to be sorted because it implements binary search to find the value.
+                2. These above function uses binary search internally.
