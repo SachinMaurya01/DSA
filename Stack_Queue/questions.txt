@@ -67,3 +67,72 @@ LINK:- https://leetcode.com/problems/largest-rectangle-in-histogram/
         }
         return maxArea;
     }
+
+
+
+---------------------------------------------------------------------------------------------------------------------------->
+
+
+Question 2. Sliding Window Maximum
+
+Problem Statement: Given an array of integers arr, there is a sliding window of size k which is moving from
+    the very left of the array to the very right. You can only see the k numbers in the window. Each time
+    the sliding window moves right by one position. Return the max sliding window.
+
+LINK:- https://leetcode.com/problems/sliding-window-maximum/description/
+
+
+-> Approach/Intitution
+    // Brute Force:-
+        1. We can define start=0 and end = k-1. while iterating end to arr size. We increment both start
+            and end pointer.
+        2. Inside we check what is the max value and we keep adding in out answer.
+
+    // Optimal:- 
+        1. We are going to use dequeue ( we can pop from front and end ). While iterating we check:-
+            -> if queue is not empty and i - q.front() >= k ( q.front() stores index ), we are checking it
+                so that it will store only k size window remove the previous index.
+            -> if queue is not empty and last element of queue is smaller than current element. Then we keep 
+                poping elements.
+            -> We keep insert elements in our ans vector if i>=k-1 and we keep pushing elemnt in queue.
+
+    
+// Code Logic
+
+    // Brute Force
+    void GetMax(vector < int > nums, int l, int r, vector < int > & arr) {
+        int i, maxi = INT_MIN;
+        for (i = l; i <= r; i++)
+            maxi = max(maxi, nums[i]);
+        arr.push_back(maxi);
+    }
+    vector < int > maxSlidingWindow(vector < int > & nums, int k) {
+        int left = 0, right = 0;
+        int i, j;
+        vector < int > arr;
+        while (right < k - 1) {
+            right++;
+        }
+        while (right < nums.size()) {
+            GetMax(nums, left, right, arr);
+            left++;
+            right++;
+        }
+        return arr;
+    }
+
+    // Optimal Approach
+    vector < int > maxSlidingWindow(vector < int > & nums, int k) {
+        deque < int > dq;
+        vector < int > ans;
+        for (int i = 0; i < nums.size(); i++) {
+            if (!dq.empty() && dq.front() == i - k) dq.pop_front();
+
+            while (!dq.empty() && nums[dq.back()] < nums[i])
+            dq.pop_back();
+
+            dq.push_back(i);
+            if (i >= k - 1) ans.push_back(nums[dq.front()]);
+        }
+        return ans;
+    }
