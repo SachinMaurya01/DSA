@@ -1,0 +1,64 @@
+
+// Data Types:- 
+
+    -> Basic Data Types:-
+    	Built-in or primitive data types that are used to store simple values.
+        Ex:-    int ( 4 bytes )  ---  long ( 4 or 8 bytes )    ---  long long ( 8 bytes )
+                float ( 4 bytes )
+                double ( 8 bytes )  ---  long double (  16 or more bytes)
+                char ( 1 bytes ) 
+                bool ( 1 bytes ) 
+                void ( its no type function )
+
+    -> Derived Data Types:-
+    	Data types derived from basic types.
+        Ex:- array, pointer, reference, function
+
+    -> User Defined Data Types:-
+    	Custom data types created by the programmer according to their need.
+        Ex:- class, struct, union, typedef, using
+
+
+
+// Header files
+    Header files in C++ contain declarations of functions, classes, and variables that can be
+    used in multiple source files. They typically have a .h or .hpp extension.
+
+    => Types of Header Files:-
+
+        1. Standard Library Headers (Built-in) -
+            -  Provided by C++ standard libraries.
+            -  Included using angle brackets (< >).
+            -  Example: #include <iostream>
+
+
+        2. User-Defined Headers (Custom)
+            -  Created by the programmer.
+            -  Included using double quotes (" ").
+            -  Example: #include "myheader.h"
+
+    Note:-  
+        1.  #include <bits/stdc++.h> 
+                -  we can use this generic header file which include all header files
+                -  It is not part of the official C++ standard
+                -  It works in GCC/G++ compilers 
+
+                Cons:- 
+                    -  Slower compilation time
+                    -  Non-portable ( It only works on GCC; other compilers (like MSVC) 
+                        may not support it. )
+                    -  Not recommended for large projects
+
+        2.  using namespace std; 
+                -  This allows direct access to symbols in the std namespace without 
+                    prefixing them with std::
+                -  The std namespace contains all C++ Standard Library functions and 
+                    classes (like cout, vector, string, etc.)
+
+                Cons:- 
+                    -  Can cause name conflicts
+
+            Alternative:-  
+                // It will work same
+                using std::cout;
+                using std::endl;

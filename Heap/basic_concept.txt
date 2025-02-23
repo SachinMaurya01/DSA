@@ -42,6 +42,7 @@
 
     a. Min heap:- It store the min value at top and max at last.
         Defination :- priority_queue <Type, vector<Type>, ComparisonType > min_heap;
+                Ex:-  priority_queue<int,vector<int>,greater<int>> pq;
 
             * ‘vector<int>’ is the type of internal container used to store these elements.
                     std::priority_queue is not a container in itself but a container adopter.
