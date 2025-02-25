@@ -1,0 +1,130 @@
+
+Question 1. Reverse Words in a String
+
+Problem Statement: Given a string s, reverse the words of the string.
+
+LINK:- https://leetcode.com/problems/reverse-words-in-a-string/description/
+
+
+-> Approach/Intitution
+    // Brute Force:-
+        1. We are using stack to store the sub string of s string.
+        2. Initially we iterate parent string . Inside that we keep ignoring the empty character
+            and if not empty we do while loop iteration till we donot see empty character, we keep
+            adding into our temp var;
+        3. We will add it into our stack.
+        4.  At last , we traverse stack and push it into our answer with empty string.
+
+    // Optimial:-
+        1. We need not to use stack , we define two string .
+        2. We can ignore last step pushing temp into stack. We just insert that temp before our ans
+            string and we will empty that temp;
+
+
+// Code Logic:- 
+
+    string reverseWords(string s) {
+        stack<string>st;
+        int start = 0,end=0;
+        int n= s.size();
+        string ans= "";
+        // stack<int>st;
+        for(int i=0;i<n;i++){
+            string temp = "";
+            if(s[i]== ' ') continue;
+            while( i<n && s[i]!=' ' ){
+                temp.push_back(s[i]);
+                i++;
+            }
+            // st.push(temp);
+            if (ans!="") ans = temp + " " + ans;
+            else ans = temp;
+            temp = "";
+        }
+
+        // Brute Force
+        // while(!st.empty()){
+        //     ans+=st.top();
+        //     st.pop();
+        //     if(!st.empty()){
+        //         ans+= " ";
+        //     }
+        // }
+        return ans;
+    }
+
+
+
+---------------------------------------------------------------------------------------------------------------------------->
+
+
+Question 2. Longest Palindrome in a string
+
+Problem Statement: Given a string s, return the longest palindromic substring in s.
+
+LINK:- https://leetcode.com/problems/longest-palindromic-substring/description/
+
+
+-> Approach/Intitution
+    // Approach 1
+        1. We will iterate from 0 to n size. In every iteration , we call expand function to
+            check bestleft and bestright .
+        2. We call expand func two times with ( i , i ) for odd length palindrome and ( i,i+1 )
+            for even length palindrome.
+        3. Inside each expand we will keep check s[l] == s[r] and ( l , r ) within boundaries.
+            We will keep update (l-- ; r++ ; ) 
+        4. At end we will check if r-l+1 > bestRight - bestLeft + 1 , then we will updated answer.
+    
+    // Approach 2
+        1. We are using DP approach . Create a 2D vector with bool value.
+        2. We will iterate from a= (0 to n):
+                iterate from b =( 0 to a):
+                    Check ( a == b ) and ( difference ( a - b >= 2 ) or dp[b+1][a-1] == true ):
+                        Then we will mark it true ( dp[j][i] );
+                        We will compare it with maxLen and if it is greater then update it 
+        
+
+
+// Code Logic:- 
+
+    void expand(string s,int l,int r,int &bestLeft,int &bestRight){
+    while(l>=0 && r<s.size() && s[l]==s[r]){
+        l--;
+        r++;
+    }
+    l++;r--;
+    if(r-l+1 > bestRight-bestLeft+1){
+        bestRight=r;
+        bestLeft=l;
+    }
+}
+    string longestPalindrome(string s) {
+        int bestLeft=0;
+        int bestRight=0;
+
+        // int n=s.size();
+        // for(int i=0;i<s.size();i++){
+        //     expand(s,i,i,bestLeft,bestRight);
+        //     expand(s,i,i+1,bestLeft,bestRight);
+        // }
+
+        // return s.substr(bestLeft,bestRight-bestLeft+1);
+
+        int n=s.size();
+        int maxLen=1;
+        vector<vector<bool>>ans(n,vector<bool>(n,false));
+        for(int i=0;i<n;i++){
+            ans[i][i]=true;
+            for(int j=0;j<i;j++){
+                if(s[i]==s[j] && (i-j<=2 || ans[j+1][i-1])){
+                    ans[j][i]=true;
+                    if(i-j+1 > maxLen){
+                        maxLen=i-j+1;
+                        bestLeft=j;
+                        bestRight=i;
+                    }
+                }
+            }
+        }
+        return s.substr(bestLeft,bestRight-bestLeft+1);
+    }
