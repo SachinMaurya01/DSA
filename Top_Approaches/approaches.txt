@@ -1,0 +1,86 @@
+<----------------------------------------------------------  Approches   ----------------------------------------------------->
+
+1. Two Pointer:-    
+    The idea of this technique is to begin with two corners of the given array. We use two index variables
+    left and right to traverse from both corners.
+
+    // Types of Two-Pointer Approaches
+
+        1. Opposite Direction (Two Pointers at Ends) :- 
+
+            // Approach
+            1. Initialize: left = 0, right = n – 1
+            2. Run a loop while left < right, do the following inside the loop
+            3. Compute current sum, sum = arr[left] + arr[right]
+            4. If the sum equals the target, we’ve found the pair.
+            5. If the sum is less than the target, move the left pointer to the right to increase the sum.
+            6. If the sum is greater than the target, move the right pointer to the left to decrease the sum.
+
+            Example: Finding a pair in a sorted array that sums up to a given target.
+
+            // Code:- 
+                int left = 0, right = arr.size() - 1;
+                while (left < right){
+                    int sum = arr[left] + arr[right];
+
+                    if (sum == target)
+                        return true;
+                    
+                    // Move toward a higher sum
+                    else if (sum < target)
+                        left++; 
+                    
+                    // Move toward a lower sum
+                    else
+                        right--; 
+                }
+            
+
+        2: Same Direction (Fast and Slow Pointers):- 
+
+            // Approach:
+                1. Use a slow pointer (moves one step at a time) and a fast pointer (moves two steps at a time).
+                2. If the fast pointer meets the slow pointer, a cycle exists.
+
+                Example: 1. Detecting cycles in a linked list. 
+                        2. Floyd’s Cycle Detection Algorithm (Tortoise and Hare)
+
+                // Code:- 
+                    bool hasCycle(ListNode* head) {
+                        if (!head || !head->next) return false;
+
+                        ListNode *slow = head, *fast = head;
+
+                        while (fast && fast->next) {
+                            slow = slow->next;
+                            fast = fast->next->next;
+                            if (slow == fast) return true; // Cycle detected
+                        }
+
+                        return false; // No cycle
+                    }
+
+
+        3. Sliding Window (Expanding and Contracting Window)
+
+            // Approach:
+                1. Use a left pointer to shrink the window.
+                2. Use a right pointer to expand the window.
+
+                Example Problem: Minimum Size Subarray Sum
+
+                // Code:- 
+                    int minSubarrayLen(int target, vector<int>& arr) {
+                        int left = 0, currSum = 0, minLength = INT_MAX;
+
+                        for (int right = 0; right < arr.size(); right++) {
+                            currSum += arr[right];
+
+                            while (currSum >= target) {
+                                minLength = min(minLength, right - left + 1);
+                                currSum -= arr[left++];
+                            }
+                        }
+
+                        return (minLength == INT_MAX) ? 0 : minLength;
+                    }
