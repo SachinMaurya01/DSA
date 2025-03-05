@@ -62,3 +62,15 @@
                 // It will work same
                 using std::cout;
                 using std::endl;
+
+
+// Tuples
+    In C++, a tuple is a data structure that allows you to store multiple values of different types
+    together. It is similar to an array or a struct, but with a more flexible and dynamic nature.
+
+    // Note:-
+        * This file specifically covers the topic of tuples in C++.
+        * Tuples are a way to store multiple elements of different types in a single object.
+        * They are similar to pairs, but can hold more than two elements.
+
+    Example:- queue<tuple<TreeNode*,int,int>>q;
