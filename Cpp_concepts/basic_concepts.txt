@@ -74,3 +74,11 @@
         * They are similar to pairs, but can hold more than two elements.
 
     Example:- queue<tuple<TreeNode*,int,int>>q;
+
+
+// Multiset :- 
+    1. Multiset is an associative container similar to the set, but it can store multiple elements with
+        same value.
+    2. It is sorted in increasing order by default
+
+    Example:-  multiset<int> ms = {5, 1, 3, 3};
