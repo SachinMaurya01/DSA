@@ -53,31 +53,60 @@ Question:- Difference between graph and binary tree traversal ?
 
 ------------------------------------ Depth First Search (DFS) -------------------------------------------------------------------->
 
-    class Solution {
-    private: 
-        void dfs(int node, vector<int> adj[], int vis[], vector<int> &ls) {
-            vis[node] = 1; 
-            ls.push_back(node); 
-            // traverse all its neighbours
-            for(auto it : adj[node]) {
-                // if the neighbour is not visited
-                if(!vis[it]) {
-                    dfs(it, adj, vis, ls); 
+    // With Recursion
+        class Solution {
+        private: 
+            void dfs(int node, vector<int> adj[], int vis[], vector<int> &ls) {
+                vis[node] = 1; 
+                ls.push_back(node); 
+                // traverse all its neighbours
+                for(auto it : adj[node]) {
+                    // if the neighbour is not visited
+                    if(!vis[it]) {
+                        dfs(it, adj, vis, ls); 
+                    }
                 }
             }
+        public:
+            // Function to return a list containing the DFS traversal of the graph.
+            vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+                int vis[V] = {0}; 
+                int start = 0;
+                // create a list to store dfs
+                vector<int> ls; 
+                // call dfs for starting node
+                dfs(start, adj, vis, ls); 
+                return ls; 
+            }
+        };
+
+    // Iterative Apporach:-
+        void Graph::DFS(int s , vector<vector<int>>&adj)
+        {
+            vector<bool> visited(V, false);
+        
+            // Create a stack for DFS
+            stack<int> stack;
+            stack.push(s);
+            while (!stack.empty())
+            {
+                // Pop a vertex from stack and print it
+                int s = stack.top();
+                stack.pop();
+
+                if (!visited[s])
+                {
+                    visited[s] = true;
+                }
+        
+                // Get all adjacent vertices of the popped vertex s
+                // If a adjacent has not been visited, then push it
+                // to the stack.
+                for (auto i = adj[s].begin(); i != adj[s].end(); ++i)
+                    if (!visited[*i])
+                        stack.push(*i);
+            }
         }
-    public:
-        // Function to return a list containing the DFS traversal of the graph.
-        vector<int> dfsOfGraph(int V, vector<int> adj[]) {
-            int vis[V] = {0}; 
-            int start = 0;
-            // create a list to store dfs
-            vector<int> ls; 
-            // call dfs for starting node
-            dfs(start, adj, vis, ls); 
-            return ls; 
-        }
-    };
 
 
 ------------------------------- Breadth First Search (BFS): Level Order Traversal ------------------------------------------->
