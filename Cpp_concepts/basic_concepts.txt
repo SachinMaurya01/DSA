@@ -88,3 +88,14 @@
     2. It is sorted in increasing order by default
 
     Example:-  multiset<int> ms = {5, 1, 3, 3};
+
+// Sort pair vector:-
+
+    1. It sorts the vector n1 in ascending order based on the first value of the pairs.
+    2. If the first values are equal, it further sorts the pairs based on the second value in ascending order.
+
+    // Code Logic:-
+        sort(n1.begin(),n1.end(), [](const pair<int,int>&a, const pair<int,int>&b){
+            if(a.first == b.first) return a.second < b.second;
+            return a.first < b.first;
+        });
