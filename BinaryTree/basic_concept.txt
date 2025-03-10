@@ -202,3 +202,9 @@ Level Order Traversal :-
         return min(left_min, right_min);
     }
       
+
+// Applications of Segment Tree:- 
+
+    1. Segment trees are commonly used for finding the minimum, maximum, sum, or product
+        of elements in a given range.
+    2. Used for implementing range queries in database management systems.
