@@ -94,3 +94,111 @@ Level Order Traversal :-
         }
         ans.push_back(temp);
     }
+
+
+
+--------------------------------------- Segment Tree -------------------------------------------------------->
+
+=> A Segment Tree is a binary tree data structure that stores information about intervals or segments.
+    1. It allows for efficient query and update operations on arrays. 
+    2. Each node in the tree represents a segment of the array, with the root representing the
+        entire array and leaf nodes representing individual elements.
+
+// Properties of Segment Trees:- 
+    1. The root of the tree represents the whole array A[0:n-1].
+    2. Each leaf in the Segment Tree represents a single element of the array.
+    3. The internal nodes represent the merge of their children nodes.
+
+    Note:- Basic Operations of Segment Tree in C++
+            1. Build -> Constructs the Segment Tree from the input array -> ( T.C. ->  O(n) )
+            2. Update -> Updates a single element in the Segment Tree -> ( T.C. -> O(log n) )
+            3. Query -> Performs a range query on the Segment Tree ->  ( T.C. -> O(log n) )
+
+
+// Implementation:- 
+
+    // Build Function:- 
+    1. Start with the root node representing the entire array.
+    2. Recursively divide the array into two halves.
+    3. Build the left and right subtrees.
+    4. Combine the results of the left and right subtrees to build the current node.
+
+
+    // Update Function:- 
+    1. Start from the root of the Segment Tree.
+    2. If the current node's range includes the index to be updated:
+    3. If it's a leaf node, update the value.
+    4. Otherwise, recursively update the appropriate child (left or right).
+    5. After returning from recursive calls, recalculate the current node's value.
+
+    
+    // Query Function:- 
+    1. If the current node's range is completely inside the query range, return the node's value.
+    2. If the current node's range is completely outside the query range, return the identity element.
+    3. Otherwise, split the query into two parts and recursively query the left and right children.
+    4. Combine the results from the left and right queries and return.
+
+
+// Code Logic:- 
+
+    // Function to build the segment tree
+    void build(int node, int start, int end)
+    {
+        // If the current node represents a single element, store it in the tree
+        if (start == end) {
+            seg[node] = arr[start];
+            return;
+        }
+
+        // Calculate the middle index
+        int m = (start + end)/2;
+
+        // Recursively build the left and right children
+        build(2 * node + 1, start, m);
+        build(2 * node + 2, m + 1, end);
+
+        // Internal node will store the minimum of the twochildren
+        seg[node] = min(seg[2 * node + 1], seg[2 * node + 2]);
+    }
+
+    // Function to update the value at a specific index in the segment tree
+    void update(int node, int start, int end, int idx, int val)
+    {
+        // If the current node represents a single element, update it
+        if (start == end) {
+            arr[idx] = val;
+            seg[node] = val;
+            return;
+        }
+        // Calculate the middle index
+        int m = (start+end)/2;
+        // Recursively update the left or right child
+        if (idx <= m)
+            update(2 * node + 1, start, m, idx, val);
+        else
+            update(2 * node + 2, m + 1, end, idx, val);
+        // Internal node will store the minimum of the two
+        // children
+        seg[node] = min(seg[2 * node + 1], seg[2 * node + 2]);
+    }
+
+    query(int node, int start, int end, int l, int r)
+    {
+        // If the current node's range is completely outside the query range
+        if (r < start || end < l)
+            return INT_MAX;
+
+        // If the current node's range is completely inside the query range
+        if (l <= start && end <= r)
+            return seg[node];
+
+        // Calculate the middle index
+        int m = (start + end)/2;
+
+        // Recursively query the left and right children and combine the results
+        int left_min = query(2 * node + 1, start, m, l, r);
+        int right_min = query(2 * node + 2, m + 1, end, l, r);
+
+        return min(left_min, right_min);
+    }
+      
