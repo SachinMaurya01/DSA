@@ -99,3 +99,20 @@
             if(a.first == b.first) return a.second < b.second;
             return a.first < b.first;
         });
+
+
+// Compare max and min value between variables:-
+
+    => Max :- ( 2 ways )
+        1. First way:-
+            Ex:-  max(ans,max(v1,v2));
+        
+        2. Second  way:-
+            Ex:- max({ ans, v1, v2 });
+
+    => Min :- ( 2 ways )
+        1. First way:-
+            Ex:-  min(ans,min(v1,v2));
+        
+        2. Second  way:-
+            Ex:- min({ ans, v1, v2 });
