@@ -108,6 +108,32 @@ Question:- Difference between graph and binary tree traversal ?
             }
         }
 
+    // Iterative apporach to use within the function :- 
+
+        // Code Logic -> 
+
+        vector<bool> visited(n, false);
+        int components = 0;
+
+        auto dfs = [&](int node) {
+            vector<int> stack = {node}; // Start with the given node
+            while (!stack.empty()) {    // Process all nodes in the stack
+                int curr = stack.back(); // Get the last element (LIFO)
+                stack.pop_back();        // Remove it from the stack
+                for (int neighbor : g[curr]) { // Traverse its neighbors
+                    if (!visited[neighbor]) {  // If neighbor is not visited
+                        visited[neighbor] = true; // Mark it as visited
+                        stack.push_back(neighbor); // Push to stack for further exploration
+                    }
+                }
+            }
+        };
+
+        Notes:- 
+            1. auto -> means the compiler will automatically deduce the type of dfs. In this case, dfs is a lambda function.
+            2. [&] is a capture clause, meaning the lambda function captures all variables from the surrounding scope by reference.
+            3. By value ([=]): Makes a copy of variables.
+            4. (int node) specifies the function parameter, meaning dfs takes an integer node as input.
 
 ------------------------------- Breadth First Search (BFS): Level Order Traversal ------------------------------------------->
 
