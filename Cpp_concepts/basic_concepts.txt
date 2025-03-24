@@ -116,3 +116,44 @@
         
         2. Second  way:-
             Ex:- min({ ans, v1, v2 });
+
+
+// Some C++ concepts:- 
+
+    1. stringstream :- manipulate strings as if they were input or output streams.
+        -> It is particularly useful for parsing, tokenizing, converting data types, and generating formatted strings.
+
+        Example:- 
+                1. stringstream ss("Hello 123 World");
+                    output-> Hello
+                             123
+                             World
+
+        => Key Operations with stringstream:-
+        
+            1. Initialization:-
+                Ex:- stringstream ss("Hello 123 World");
+
+            2. Insertion (<<): It inserts data into the stream.
+                Ex:- ss << "Data: " << 42 << " " << 3.14;
+
+            3. Extraction (>>): It extracts formatted data.
+                Ex:-    string word;
+                        int num;
+                        ss >> word >> num; // Extracts "Data:" and 42
+
+    
+    2. getline() -> Useful when reading multi-word strings with spaces.
+
+            Syntax:- getline(istream& input, string& str, char delimiter = '\n');
+            Parameters:
+                1. input: Input stream, typically cin or ifstream.
+                2. str: String variable to store the input.
+                3. delimiter (optional): Character that marks the end of input (default is newline '\n').
+
+            Example:- 
+                // Here, getline() will stop reading at the first comma (',').
+                    string data;
+                    cout << "Enter comma-separated values: ";
+                    getline(cin, data, ',');
+                    cout << "First value: " << data << endl;
