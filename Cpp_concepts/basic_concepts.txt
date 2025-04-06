@@ -157,3 +157,24 @@
                     cout << "Enter comma-separated values: ";
                     getline(cin, data, ',');
                     cout << "First value: " << data << endl;
+
+
+// Implement data structure in C++:-
+
+    => Structures (also called structs) are a way to group several related variables into one place.
+        Each variable in the structure is known as a member of the structure.
+
+    Example:- 
+        struct Packet {
+            int source;
+            int destination;
+            int timestamp;
+            
+            Packet(int s, int d, int t) : source(s), destination(d), timestamp(t) {}
+            
+            bool operator==(const Packet& other) const {
+                return source == other.source && 
+                    destination == other.destination && 
+                    timestamp == other.timestamp;
+            }
+        };
