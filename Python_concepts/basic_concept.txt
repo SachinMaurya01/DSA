@@ -1,0 +1,105 @@
+
+// Looping :-
+
+    1. Looping in Dictionary
+        Ex:- 
+            for key, value in kwargs.items():
+                print(f"{key}: {value}")
+
+    2. Element Looping
+        Ex:- 
+            // With accessing elements
+            fruits = ["apple", "banana", "cherry"]
+                for x in fruits:
+                print(x)
+            
+            // Without accessing elements
+                for _ in fruits:
+                    print('name')
+
+    3. Using Lamda:
+        A lambda function can take any number of arguments, but can only have one expression.
+        Syntax
+            lambda arguments : expression
+
+        Ex:- 
+            x = lambda a, b : a * b
+            print(x(5, 6))
+
+    4. Using Enumerate:-
+        Ex:- 
+            arr = [10, 20, 30]
+            for i, val in enumerate(arr):
+                print(i, val)
+
+
+// Swaping:-
+    Ex:- 
+        a, b = (1, 2)
+        a, b = b, a  # swap
+
+// Sort:-
+    Ex:- 
+        sorted([3, 1, 2]) # ➝ [1, 2, 3]
+        sorted(['cat', 'apple', 'bat']) # ➝ ['apple', 'bat', 'cat']
+
+
+// Reversing;-
+    Ex:- 
+        arr = [1, 2, 3, 4]
+        rev = arr[::-1]  # using indexing
+        list(reversed([1, 2, 3])) # usin function
+
+
+//  Count frequency
+    Ex:- 
+        s = "aabbcc"
+        freq = {ch: s.count(ch) for ch in set(s)}
+        print(freq);
+
+
+// Unique items
+    Ex:-    
+        nums = [1, 2, 2, 3]
+        unique = set(nums)
+        print(unique);
+
+
+// Map:-
+    Ex:- 
+        val = map(int, [1, 2, 3])
+        print(list(val))
+
+
+// Filter:- 
+    Ex:-    
+        num = [1, 2, 3, 4]
+        list(filter(lambda x: x % 2 == 0, num)) # ➝ [2, 4]
+
+// Comman Fucntion:- 
+
+    1. Find max element in python list?
+    -> Ex:- max(list);
+            max(ans, pre,suf)  # max of 3 element
+
+
+// Heap:-
+
+    Python has a built-in min heap module which you can import
+    -> Python does have max heap. So we will push element by multiplication with -1 into min heap.
+
+    // Some function:-
+        1. heapify − This function converts a regular list to a heap. In the resulting heap the smallest
+                element gets pushed to the index position 0. But rest of the data elements are not necessarily sorted.
+        2. heappush − This function adds an element to the heap without altering the current heap.
+        3. heappop − This function returns the smallest data element from the heap.
+        4. heapreplace − This function replaces the smallest data element with a new value supplied in the function.
+
+    Ex:- 
+        import heapq
+
+        hq = [5,7, 9, 8, 3, 2]           # Array to convert into min heap
+        heapq.heapify(hq)                # Convert the array into a heap
+        print(hq)
+
+        heappush(h, -i)                   # h is heapname and -i is negativa value.
