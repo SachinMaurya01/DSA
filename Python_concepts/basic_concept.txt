@@ -83,6 +83,11 @@
             max(ans, pre,suf)  # max of 3 element
 
 
+// Create 2D DP:-
+    Ex:- 
+        1.  dp =[ [-1 for _ in range(n+1)] for _ in range(n)]
+        2.  prev = [0] * (m + 1)
+
 // Heap:-
 
     Python has a built-in min heap module which you can import
