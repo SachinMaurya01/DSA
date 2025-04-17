@@ -1,4 +1,12 @@
 
+
+// Appends List into List 
+
+    Ex:-
+        ans.append(board[:])  # creates a copy of the current state of board.
+        ans.append(board)     # just adds a reference to the original list — future changes will affect it.
+
+
 // Looping :-
 
     1. Looping in Dictionary
@@ -32,7 +40,6 @@
             for i, val in enumerate(arr):
                 print(i, val)
 
-
 // Swaping:-
     Ex:- 
         a, b = (1, 2)
@@ -50,6 +57,15 @@
         rev = arr[::-1]  # using indexing
         list(reversed([1, 2, 3])) # usin function
 
+
+// Create Set :- 
+    Ex:- 
+        left_diagonals = set()
+        left_diagonals.add(row - col)
+        val = (row - col) in left_diagonals  # true
+        left_diagonals.remove(row - col)
+
+        
 
 //  Count frequency
     Ex:- 
@@ -86,7 +102,8 @@
 // Create 2D DP:-
     Ex:- 
         1.  dp =[ [-1 for _ in range(n+1)] for _ in range(n)]
-        2.  prev = [0] * (m + 1)
+        2.  [["."] * n for _ in range(n)]
+        3.  prev = [0] * (m + 1)
 
 // Heap:-
 
