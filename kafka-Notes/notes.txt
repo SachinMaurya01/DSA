@@ -1,0 +1,172 @@
+// Kafka Architecture – Core Components
+    Apache Kafka is a distributed event streaming platform. It helps applications publish, subscribe 
+    to, store, and process streams of records in real time. Think of it as a high-performance,
+    distributed log system.
+
+
+    1. 🧵 Topics
+        A topic is a category or feed name to which messages are published.
+        It's like a logical channel where producers send messages, and consumers read them.
+        For example, a topic could be named user-signups, payments, or logs.
+
+        📝 Key Points:
+        Topics are multi-subscriber: many consumers can read from the same topic.
+        Topics can be partitioned for scalability.
+
+
+    2. 📦 Partitions
+        A topic is split into one or more partitions.
+        Each partition is an ordered, immutable sequence of records.
+        Messages in partitions are assigned a unique offset (like an index).
+
+        📝 Why partitions matter:
+            Allow parallelism – multiple consumers can read different partitions.
+            Enable Kafka to scale horizontally across multiple machines.
+
+        🎯 Example:
+
+            Topic: orders
+            Partition 0 → [msg0, msg1, msg2]
+            Partition 1 → [msg0, msg1]
+
+
+    3. 🖥️ Brokers
+        A Kafka broker is a server that stores topic data and serves clients (producers/consumers).
+        Kafka clusters are made up of multiple brokers.
+        Each broker can handle multiple partitions and topics.
+
+        📝 Key Roles:
+            Receive messages from producers
+            Store data reliably on disk
+            Serve consumer requests
+
+
+    4. ✉️ Producers
+        A producer sends (publishes) messages to Kafka topics.
+        You can control which partition the message goes to (e.g., using a key).
+
+        📝 Key Behaviors:
+            Load balancing between partitions
+            Retry logic in case of failures
+            Asynchronous sending for performance
+
+        Example (Node.js):
+
+            producer.send({
+            topic: 'logs',
+            messages: [{ key: 'server1', value: 'Error: Timeout' }]
+            });
+
+
+    5. 📥 Consumers
+        A consumer reads messages from one or more Kafka topics.
+        Consumers can be independent or part of a consumer group.
+
+        📝 Key Points:
+            Kafka tracks each consumer's offset (i.e., where they left off).
+            Consumers pull data (Kafka doesn't push).
+
+
+    6. 👥 Consumer Groups
+        A consumer group is a set of consumers that work together to consume data from a topic.
+        Each partition in a topic is consumed by only one consumer in the group at a time.
+        Enables parallel processing while ensuring message uniqueness.
+
+        🎯 Example:
+
+            If a topic has 3 partitions and 3 consumers in the same group:
+            Each consumer gets 1 partition → parallel + no duplication
+            If there are more consumers than partitions:
+            Some consumers will be idle.
+
+    
+    Visual Summary:-
+
+            Producers  →  [ Kafka Topic (Partitions) ]  →  Consumer Group
+                        →  Broker 1, Broker 2, ...
+
+            -> Producers write messages to partitions.
+            -> Brokers store the partitions.
+            -> Consumers (in groups) read partitions in parallel.
+
+
+
+// KAFKA SETUP:- 
+
+    🛠️ Prerequisites
+        1. Install Kafka locally (or use Docker – I can help set that up too).
+
+        2. Install KafkaJS:
+            npm install kafkajs
+    
+        3. Assuming Kafka is running locally on port 9092.
+
+    // Node.js Code:- 
+
+        ✅ 1. Kafka Producer (Node.js)
+            // producer.js
+            const { Kafka } = require('kafkajs');
+
+            const kafka = new Kafka({
+            clientId: 'my-app',
+            brokers: ['localhost:9092'], // Kafka broker
+            });
+
+            const producer = kafka.producer();
+
+            const runProducer = async () => {
+            await producer.connect();
+            await producer.send({
+                topic: 'test-topic',
+                messages: [
+                { key: 'user1', value: 'Hello Kafka from user1' },
+                { key: 'user2', value: 'Hello Kafka from user2' },
+                ],
+            });
+
+            console.log('Messages sent!');
+            await producer.disconnect();
+            };
+
+            runProducer().catch(console.error);
+
+
+        📥 2. Kafka Consumer (Single or Group)
+
+            // consumer.js
+            const { Kafka } = require('kafkajs');
+
+            const kafka = new Kafka({
+            clientId: 'my-consumer-app',
+            brokers: ['localhost:9092'],
+            });
+
+            const consumer = kafka.consumer({ groupId: 'test-group' });
+
+            const runConsumer = async () => {
+            await consumer.connect();
+            await consumer.subscribe({ topic: 'test-topic', fromBeginning: true });
+
+            await consumer.run({
+                eachMessage: async ({ topic, partition, message }) => {
+                console.log({
+                    partition,
+                    offset: message.offset,
+                    key: message.key.toString(),
+                    value: message.value.toString(),
+                });
+                },
+            });
+            };
+
+            runConsumer().catch(console.error);
+
+    3. Run It
+
+        1. Start Kafka server (Zookeeper + Kafka broker).
+
+        2. Run the consumer:   
+            node consumer.js
+        
+        3. Run the producer (in another terminal):
+            node producer.js
