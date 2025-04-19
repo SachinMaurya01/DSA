@@ -288,3 +288,73 @@ LINK:- https://leetcode.com/problems/longest-palindromic-subsequence/description
         }
         return prev[n];
     }
+
+
+
+------------------------------------------------------------------------------------------------------------------------------->
+
+
+Question 5:- Max Sum Increasing Subsequence
+
+Problem Description: 
+    Given an array of positive integers arr. Find the maximum sum subsequence of the given array such 
+    that the integers in the subsequence are sorted in strictly increasing order i.e. a strictly increasing subsequence. 
+
+LINK:- https://www.geeksforgeeks.org/problems/maximum-sum-increasing-subsequence4749/1
+
+
+// Intitution / Approach :-
+
+    1. There is only one value is changing in array. So, we will create 1D array .
+    2. We will loop through the from i to n and j to i . To check if there any increasing Subsequence exist.
+    3. If we found, we will simply update the dp[i];
+
+// Code Logic:- 
+
+    // Memorization 
+        int helper(vector<int>& arr ,vector<vector<int>>&dp, int indx,int prev ){
+            if(indx == arr.size()) return 0;
+            if(dp[indx][prev+1] != -1){
+                return dp[indx][prev+1];
+            }
+            
+            int notTaken = helper(arr,dp,indx+1,prev);
+            int taken = 0;
+            if(prev == -1 || arr[prev] < arr[indx]){
+                taken = arr[indx] + helper(arr,dp,indx+1,indx);
+            }
+            int ans= max(taken , notTaken);
+            return dp[indx][prev+1] = ans;
+        }
+        int maxSumIS(vector<int>& arr) {
+            // Your code goes here
+            int n=arr.size();
+            vector<vector<int>>dp(n+1, vector<int>(n+1,-1));
+            return helper(arr,dp,0,-1);
+        }
+
+    // Bottom Up:-  
+        int maxSumIS(vector<int>& arr) {
+            // Your code goes here
+            int n=arr.size();
+            int ans = 0;
+        
+            vector<int> dp(arr.size());
+            
+            // Compute maximum sum for each 
+            // index and compare it with ans.
+            for (int i=0; i<arr.size(); i++) {
+                dp[i] = arr[i];
+                
+                for (int j=0; j<i; j++) {
+                    if (arr[j]<arr[i]) {
+                        dp[i] = max(dp[i], arr[i]+dp[j]);
+                    }
+                }
+                
+                ans = max(ans, dp[i]);
+            }
+            
+            return ans;
+            
+        }

@@ -8,11 +8,14 @@
 
     // Find Element : returns the value of the first array element that passes a test function
         const numbers = [4, 9, 16, 25, 29];
-        let first = numbers.find(myFunction);
-
+        
+        let first = numbers.find(myFunction);           # 1st way
         function myFunction(value, index, array) {
             return value > 18;
         }
+
+        let first = numbers.find((val,index) => val > 18) # 2nd way
+
 
     // Sorting :- sorts an array alphabetically
         cars.sort() // For alphabetically
@@ -30,7 +33,22 @@
 
     // Flat an Multi Dimension Array:-
         const val = [1,2,[3,[5,4]]]
+
+        # 1st way
         console.log(val.flat(Infinity));
+
+        # 2nd way
+        function flattenArray(arr) {
+            let result = [];
+            arr.forEach(element => {
+                if (Array.isArray(element)) {
+                    result = [ ...result ,...flattenArray(element)];
+                } else {
+                    result.push(element);
+                }
+            });
+            return result;
+        }
 
     // Iterations:- 
         // forEach :-  calls a function (a callback function) once for each array element
@@ -66,7 +84,7 @@
     ]);
 
     // Size
-    fruits.size
+    fruits.size;
 
     // adding 
     fruits.set("apples", 500);
@@ -136,7 +154,7 @@
         Ex:- 
             const person = {fname:"John", lname:"Doe", age:25};
             for (let x in person) {
-                console.log(person[x]);
+                console.log(person[x]);  # John , Doe
             }
     
     // For Of:- loops through the values of an iterable object  ( Array , String )
