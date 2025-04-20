@@ -9,4 +9,7 @@
 
 
 // LLD learnYard:-
+
+    Ashish Pratap:- https://github.com/SachinMaurya01/awesome-low-level-design/tree/main?tab=readme-ov-file
+
     Rohit Verma:- https://medium.com/@rohitverma_87831 // include LLD topics
