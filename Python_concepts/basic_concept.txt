@@ -125,3 +125,67 @@
         print(hq)
 
         heappush(h, -i)                   # h is heapname and -i is negativa value.
+
+
+
+// Some Key Concepts:-
+
+    1. If you we are calling Dummy.output() without an instance and without passing self,
+        you should declare it as a static method:
+        Ex:- 
+            class Dummy:
+                @staticmethod
+                def output():
+                    print("sachin")
+
+
+    2. if __name__ == "__main__":   # what is the meaning of this ?
+
+        -> The __name__ variable is a special variable in Python that holds the name of the current module.
+            When a module is run as the main program, its __name__ is set to "__main__". On the other hand, 
+            when a module is imported, its __name__ is set to the actual name of the module.
+        
+        -> By using the if __name__ == "__main__": statement, you can specify a block of code that should only
+            be executed when the module is run directly. This allows you to have code that is only executed 
+            when the module is the entry point of the program.
+
+        Ex:- 
+            # module.py
+
+            def some_function():
+                print("This is a function in the module.")
+
+            if __name__ == "__main__":
+                # This code will only run when the module is executed directly
+                print("This is the main program.")
+                some_function()
+
+
+    3. To get input from python -> Input() is used 
+        Ex:-
+            # input
+            input1 = input()
+            
+            # output
+            print(input1)
+        
+
+    4. *args and **kwargs :-
+            => *args -  The special syntax *args in function definitions is used to pass a variable number
+                        of arguments to a function
+
+            => **kwargs - The special syntax **kwargs in function definitions is used to pass a variable
+                        length argument list.
+
+            Ex:- 
+                def fun(*args, **kwargs):
+                    print("Positional arguments:", args)
+                    print("Keyword arguments:", kwargs)
+
+                fun(1, 2, 3, a=4, b=5)
+        
+        Note:-  1. “We use the “wildcard” or “*” notation like this – *args OR **kwargs – as our function’s
+                    argument when we have doubts about the number of  arguments we should pass in a function.” 
+
+                2. The args parameter collects positional arguments into a tuple, while the kwargs parameter
+                    collects keyword arguments into a dictionary.
