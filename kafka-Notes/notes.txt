@@ -108,24 +108,24 @@
             const { Kafka } = require('kafkajs');
 
             const kafka = new Kafka({
-            clientId: 'my-app',
-            brokers: ['localhost:9092'], // Kafka broker
+                clientId: 'my-app',
+                brokers: ['localhost:9092'], // Kafka broker
             });
 
             const producer = kafka.producer();
 
             const runProducer = async () => {
-            await producer.connect();
-            await producer.send({
-                topic: 'test-topic',
-                messages: [
-                { key: 'user1', value: 'Hello Kafka from user1' },
-                { key: 'user2', value: 'Hello Kafka from user2' },
-                ],
-            });
+                await producer.connect();
+                await producer.send({
+                    topic: 'test-topic',
+                    messages: [
+                        { key: 'user1', value: 'Hello Kafka from user1' },
+                        { key: 'user2', value: 'Hello Kafka from user2' },
+                    ],
+                });
 
-            console.log('Messages sent!');
-            await producer.disconnect();
+                console.log('Messages sent!');
+                await producer.disconnect();
             };
 
             runProducer().catch(console.error);
@@ -137,26 +137,26 @@
             const { Kafka } = require('kafkajs');
 
             const kafka = new Kafka({
-            clientId: 'my-consumer-app',
-            brokers: ['localhost:9092'],
+                clientId: 'my-consumer-app',
+                brokers: ['localhost:9092'],
             });
 
             const consumer = kafka.consumer({ groupId: 'test-group' });
 
             const runConsumer = async () => {
-            await consumer.connect();
-            await consumer.subscribe({ topic: 'test-topic', fromBeginning: true });
+                await consumer.connect();
+                await consumer.subscribe({ topic: 'test-topic', fromBeginning: true });
 
-            await consumer.run({
-                eachMessage: async ({ topic, partition, message }) => {
-                console.log({
-                    partition,
-                    offset: message.offset,
-                    key: message.key.toString(),
-                    value: message.value.toString(),
+                await consumer.run({
+                    eachMessage: async ({ topic, partition, message }) => {
+                        console.log({
+                            partition,
+                            offset: message.offset,
+                            key: message.key.toString(),
+                            value: message.value.toString(),
+                        });
+                    },
                 });
-                },
-            });
             };
 
             runConsumer().catch(console.error);
