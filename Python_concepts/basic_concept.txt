@@ -191,3 +191,9 @@
 
                 2. The args parameter collects positional arguments into a tuple, while the kwargs parameter
                     collects keyword arguments into a dictionary.
+
+
+// Common Methods:- 
+
+    1. Ord() -> takes a single character and return its integer unicode
+        Ex:- print(ord('A')) 
