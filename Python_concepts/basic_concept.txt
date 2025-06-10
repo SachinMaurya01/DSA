@@ -2,6 +2,27 @@
 // To find len of array and string
     Ex:- len(<variable>);
 
+
+// Dictonary in Python:
+    Ex:- 
+        thisdict = {
+            "brand": "Ford"
+        }
+
+        thisdict.get("brand","mustang") // Access item with default value
+
+        thisdict.keys() // Access Keys
+
+        thisdict.pop("model") // Remove item
+        del thisdict["model"]
+
+        mydict = thisdict.copy()  // Copy a dictionary
+
+        // Looping:- 
+
+            1. for x, y in thisdict.items():
+
+
 // Appends List into List 
 
     Ex:-
@@ -15,7 +36,7 @@
         Ex:- 
             for key, value in kwargs.items():
                 print(f"{key}: {value}")
-
+ 
     2. Element Looping
         Ex:- 
             // With accessing elements

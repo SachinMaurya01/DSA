@@ -234,6 +234,8 @@
 
     NOTE:- 
     -> Partial Abstraction: The Dog class has both abstract (sound) and concrete (display_name) methods.
-    
+
     Q:- Why Use It: Abstraction ensures consistency in derived classes by enforcing the implementation of
         abstract methods.
+
+    -> super().__init__()  -> Used to call the parent init intializer
