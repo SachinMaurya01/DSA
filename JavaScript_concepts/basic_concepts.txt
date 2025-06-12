@@ -1,12 +1,12 @@
 
-// Create new Array
+=>  Create new Array
     const cars = new Array("Saab", "Volvo", "BMW");
     const points = [40, 100, 1, 5, 25, 10];
 
-    // Access Element 
-        car.at(2) // Volvo
+    =>  Access Element 
+        car.at(2) =>  Volvo
 
-    // Find Element : returns the value of the first array element that passes a test function
+    =>  Find Element : returns the value of the first array element that passes a test function
         const numbers = [4, 9, 16, 25, 29];
         
         let first = numbers.find(myFunction);           # 1st way
@@ -17,21 +17,21 @@
         let first = numbers.find((val,index) => val > 18) # 2nd way
 
 
-    // Sorting :- sorts an array alphabetically
-        cars.sort() // For alphabetically
+    =>  Sorting :- sorts an array alphabetically
+        cars.sort() =>  For alphabetically
         const val = cars.toSorted()  # method as a safe way to sort an array without altering the original array.
 
-        points.sort((a, b)=>  a - b);  // For number Array
+        points.sort((a, b)=>  a - b);  =>  For number Array
 
 
-    // Reverse :- reverses the elements in an array
-        cars.reverse(); // For alphabetically
+    =>  Reverse :- reverses the elements in an array
+        cars.reverse(); =>  For alphabetically
         const val = cars.toReversed()  # method as a safe way to reverse an array without altering the original array.
 
-        points.sort((a, b)=>  b - a);  // For number Array
+        points.sort((a, b)=>  b - a);  =>  For number Array
 
 
-    // Flat an Multi Dimension Array:-
+    =>  Flat an Multi Dimension Array:-
         const val = [1,2,[3,[5,4]]]
 
         # 1st way
@@ -50,114 +50,114 @@
             return result;
         }
 
-    // Iterations:- 
-        // forEach :-  calls a function (a callback function) once for each array element
+    =>  Iterations:- 
+        =>  forEach :-  calls a function (a callback function) once for each array element
             Ex:- 
                 points.forEach((value, index, array) =>   # array holds the points array full values ( Optional )
                     console.log(array)
                 )
 
-        // Map:-  creates a new array by performing a function on each array element.
+        =>  Map:-  creates a new array by performing a function on each array element.
             Ex:- 
                 points.map((value, index, array) => 
                     console.log(array)
                 )
 
 
-// Remove duplicate:-   ( Use Set )
+=>  Remove duplicate:-   ( Use Set )
     Ex:-    
         const letters = new Set(["a","b","c"]);
         Set.add("d")
 
-        // Listing
+        =>  Listing
             for (const x of letters) {
                 text += x;
             }
 
-        // Has to find element  
+        =>  Has to find element  
             letters.has("d");  # return true / false
 
-// Map :- passing an Array to the new Map() constructor
+=>  Map :- passing an Array to the new Map() constructor
     const fruits = new Map([
         ["bananas", 300],
         ["oranges", 200]
     ]);
 
-    // Size
+    =>  Size
     fruits.size;
 
-    // adding 
+    =>  adding 
     fruits.set("apples", 500);
 
-    // Accessing
+    =>  Accessing
     fruits.get("apples");
 
-    // Deleting
+    =>  Deleting
     fruits.delete("apples");
 
-    // Remove all elements
+    =>  Remove all elements
     fruits.clear();
 
     fruits.has("apples");  # return true / false
 
 
-// To check Type:-
+=>  To check Type:-
 
-    // instanceof Operator:- 
+    =>  instanceof Operator:- 
     Ex:-
         const time = new Date();
 
         (time instanceof Date);
         (fruits instanceof Array);
 
-// Object Methods:- 
+=>  Object Methods:- 
 
-    // Copies properties from a source object to a target object
+    =>  Copies properties from a source object to a target object
     Object.assign(target, source)
         Ex:- 
             Object.assign(person1, person2);
 
-    // Creates an object from an existing object
+    =>  Creates an object from an existing object
     Object.create(object)
 
-    // Returns an array of the key/value pairs of an object
+    =>  Returns an array of the key/value pairs of an object
     Object.entries(object)
         Ex:- 
             for (let [fruit, value] of Object.entries(fruits)) {
                 console.log(value);
             }
 
-    // Creates an object from a list of keys/values
+    =>  Creates an object from a list of keys/values
     Object.fromEntries()
 
-    // Returns an array of the keys of an object
+    =>  Returns an array of the keys of an object
     Object.keys(object)
 
-    // Returns an array of the property values of an object
+    =>  Returns an array of the property values of an object
     Object.values(object)
 
-    // Groups object elements according to a function ( does not change the original object )
+    =>  Groups object elements according to a function ( does not change the original object )
     Object.groupBy(object, callback)
 
 
 
-// Copying object without refernce:-
+=>  Copying object without refernce:-
     const originalObject = { name: 'John', age: 30 };
     let clone = { ...originalObject };
     let clone = Object.assign({}, originalObject);
     let clone = JSON.parse(JSON.stringify(userDetails))   # does not work with function or symbol properties.
 
 
-// For Loop:- 
+=>  For Loop:- 
 
-    // For In:- loops through the properties of an Object
+    =>  For In:- loops through the properties of an Object
         Ex:- 
             const person = {fname:"John", lname:"Doe", age:25};
             for (let x in person) {
                 console.log(person[x]);  # John , Doe
             }
     
-    // For Of:- loops through the values of an iterable object  ( Array , String )
+    =>  For Of:- loops through the values of an iterable object  ( Array , String )
         Ex:- 
             const cars = ["BMW", "Volvo", "Mini"];
             for (let x of cars) {
@@ -165,9 +165,9 @@
             }
 
 
-// OOPS:-
+=>  OOPS:-
 
-    // constructor :- used to initialize object properties , executed automatically when a new object is created
+    =>  constructor :- used to initialize object properties , executed automatically when a new object is created
         Ex:-
             class Car {
                 constructor(name, year) {

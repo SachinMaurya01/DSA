@@ -1,36 +1,54 @@
 
-// To find len of array and string
+=> To find len of array and string
     Ex:- len(<variable>);
 
 
-// Dictonary in Python:
+=> Dictonary in Python:
     Ex:- 
         thisdict = {
             "brand": "Ford"
         }
 
-        thisdict.get("brand","mustang") // Access item with default value
+        thisdict.get("brand","mustang") => Access item with default value
 
-        thisdict.keys() // Access Keys
+        thisdict.keys() => Access Keys
 
-        thisdict.pop("model") // Remove item
+        thisdict.pop("model") => Remove item
         del thisdict["model"]
 
-        mydict = thisdict.copy()  // Copy a dictionary
+        mydict = thisdict.copy()  => Copy a dictionary
 
-        // Looping:- 
+        => Looping:- 
 
             1. for x, y in thisdict.items():
 
 
-// Appends List into List 
+=> Zip in python:- 
 
+    Ex:-
+        names = ["Alice", "Bob", "Charlie"]
+        ages = [25, 30, 28]
+
+        # Combining names and ages into tuples
+        zipped_data = zip(names, ages)  # Output: [('Alice', 25), ('Bob', 30), ('Charlie', 28)]
+
+
+=> Appends List into List 
+
+    ans = []
     Ex:-
         ans.append(board[:])  # creates a copy of the current state of board.
         ans.append(board)     # just adds a reference to the original list — future changes will affect it.
 
 
-// Looping :-
+=> Convert List to String:- 
+
+    Ex:- ans = ["10","20"]
+        print("".join(ans)) #Output:- "1020"
+
+
+
+=> Looping :-
 
     1. Looping in Dictionary
         Ex:- 
@@ -39,12 +57,12 @@
  
     2. Element Looping
         Ex:- 
-            // With accessing elements
+            => With accessing elements
             fruits = ["apple", "banana", "cherry"]
                 for x in fruits:
                 print(x)
             
-            // Without accessing elements
+            => Without accessing elements
                 for _ in fruits:
                     print('name')
 
@@ -55,33 +73,33 @@
 
         Ex:- 
             x = lambda a, b : a * b
-            print(x(5, 6))
+            print(x(5, 6)) # Output:- 30
 
     4. Using Enumerate:-
         Ex:- 
             arr = [10, 20, 30]
             for i, val in enumerate(arr):
-                print(i, val)
+                print(i, val) # Output:- (0,10), (1,20), (2,30)
 
-// Swaping:-
+=> Swaping:-
     Ex:- 
         a, b = (1, 2)
         a, b = b, a  # swap
 
-// Sort:-
+=> Sort:-
     Ex:- 
         sorted([3, 1, 2]) # ➝ [1, 2, 3]
         sorted(['cat', 'apple', 'bat']) # ➝ ['apple', 'bat', 'cat']
 
 
-// Reversing;-
+=> Reversing;-
     Ex:- 
         arr = [1, 2, 3, 4]
         rev = arr[::-1]  # using indexing
         list(reversed([1, 2, 3])) # using function
 
 
-// Create Set :- 
+=> Create Set :- 
     Ex:- 
         left_diagonals = set()
         left_diagonals.add(row - col)
@@ -90,50 +108,50 @@
 
         
 
-//  Count frequency
+=>  Count frequency
     Ex:- 
         s = "aabbcc"
         freq = {ch: s.count(ch) for ch in set(s)}
         print(freq);
 
 
-// Unique items
+=> Unique items
     Ex:-    
         nums = [1, 2, 2, 3]
         unique = set(nums)
         print(unique);
 
 
-// Map:-
+=> Map:-
     Ex:- 
         val = map(int, [1, 2, 3])
         print(list(val))
 
 
-// Filter:- 
+=> Filter:- 
     Ex:-    
         num = [1, 2, 3, 4]
         list(filter(lambda x: x % 2 == 0, num)) # ➝ [2, 4]
 
-// Comman Fucntion:- 
+=> Comman Fucntion:- 
 
     1. Find max element in python list?
     -> Ex:- max(list);
             max(ans, pre,suf)  # max of 3 element
 
 
-// Create 2D DP:-
+=> Create 2D DP:-
     Ex:- 
         1.  dp =[ [-1 for _ in range(n+1)] for _ in range(n)]
         2.  dp = [["."] * n for _ in range(n)]
         3.  prev = [0] * (m + 1)
 
-// Heap:-
+=> Heap:-
 
     Python has a built-in min heap module which you can import
     -> Python does have max heap. So we will push element by multiplication with -1 into min heap.
 
-    // Some function:-
+    => Some function:-
         1. heapify − This function converts a regular list to a heap. In the resulting heap the smallest
                 element gets pushed to the index position 0. But rest of the data elements are not necessarily sorted.
         2. heappush − This function adds an element to the heap without altering the current heap.
@@ -151,7 +169,7 @@
 
 
 
-// Some Key Concepts:-
+=> Some Key Concepts:-
 
     1. If you we are calling Dummy.output() without an instance and without passing self,
         you should declare it as a static method:
@@ -214,7 +232,7 @@
                     collects keyword arguments into a dictionary.
 
 
-// Common Methods:- 
+=> Common Methods:- 
 
     1. Ord() -> takes a single character and return its integer unicode
         Ex:- print(ord('A')) 
