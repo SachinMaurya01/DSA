@@ -26,6 +26,15 @@
 
 
 
+=> Upper and lower :-
+
+    -> toupper() :- To convert character to Upper case
+    -> tolower() :- To convert character to Lower case
+
+    -> isupper(x) :- To check if character is upperCase character
+    -> islower(x) :- To check if character is LowerCase character
+
+
 // Header files
     Header files in C++ contain declarations of functions, classes, and variables that can be
     used in multiple source files. They typically have a .h or .hpp extension.

@@ -220,8 +220,8 @@
 
             Ex:- 
                 def fun(*args, **kwargs):
-                    print("Positional arguments:", args)
-                    print("Keyword arguments:", kwargs)
+                    print("Positional arguments:", args) #  (1, 2, 3)
+                    print("Keyword arguments:", kwargs) # {'a': 4, 'b': 5}
 
                 fun(1, 2, 3, a=4, b=5)
         
