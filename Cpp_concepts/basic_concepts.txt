@@ -25,6 +25,53 @@
         Ex:- class, struct, union, typedef, using
 
 
+=> Set and HashMap:- 
+    
+    // Set:- 
+
+        set<string> cars = {"Volvo", "BMW"}
+
+        cars.insert("Tesla")  # Add new elements
+
+        cars.erase("Volvo") # Remove elements
+
+        cars.clear()  # Remove all elements
+
+        cars.count("BMW") # Check if an Element Exists 
+
+        #Looping
+        for (int num : numbers) {
+            cout << num << "\n";
+        }
+
+
+    // HashMap:-
+
+        -> Unordered Map:- 
+
+            unordered_map<string, int> mp = {("Apple", 10), ("Mango", 20), ("Cherry", 30)}
+
+        -> Ordered Map:-
+
+            map<string, int> mp = {("Apple", 10), ("Mango", 40), ("Cherry", 30)}
+
+        mp["Apple"] = 10; # Insert Element
+
+        mp.at("John") = 50;  # To access element ( Safer Option )
+
+        mp.insert({"Jenny", 22}) OR people["Jenny"] = 22  // Both ways we can insert
+
+        mp.erase("Apple");  # Remove an element by key
+
+        mp.count("John");  # It returns 1 (true) if the element exists and 0 (false)
+
+        # Looping
+        for (auto person : people) {
+            cout << person.first << " is: " << person.second << "\n";
+        }
+
+
+
 
 => Upper and lower :-
 

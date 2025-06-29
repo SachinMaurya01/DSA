@@ -14,7 +14,7 @@
             return value > 18;
         }
 
-        let first = numbers.find((val,index) => val > 18) # 2nd way
+        let first = numbers.find((val,index) => val > 18) # 2nd way ( It will return the first element which is greater than 18 )
 
 
     =>  Sorting :- sorts an array alphabetically

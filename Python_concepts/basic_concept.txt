@@ -3,6 +3,16 @@
     Ex:- len(<variable>);
 
 
+=> To set the variable maxValue and minValue:-
+    Ex:- val = float('inf')
+         val =  float('-inf')
+
+=> Convert particular to Lower and Upper:-
+    
+    1. c.lower() => converts character c to lowerCase
+    2. c.capitalize() => converts character c to upperCase
+
+
 => Dictonary in Python:
     Ex:- 
         thisdict = {
@@ -21,6 +31,8 @@
         => Looping:- 
 
             1. for x, y in thisdict.items():
+
+            2. for y in dict.values():©leetcode
 
 
 => Zip in python:- 
@@ -97,6 +109,8 @@
         arr = [1, 2, 3, 4]
         rev = arr[::-1]  # using indexing
         list(reversed([1, 2, 3])) # using function
+
+        reversed(nums[i:])  // reversed from particular index till end
 
 
 => Create Set :- 
