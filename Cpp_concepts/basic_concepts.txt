@@ -39,6 +39,8 @@
 
         cars.count("BMW") # Check if an Element Exists 
 
+        (cars.find("BMW") != cars.end())  # To find the element 
+
         #Looping
         for (int num : numbers) {
             cout << num << "\n";
