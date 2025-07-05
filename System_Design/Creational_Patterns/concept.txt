@@ -1,4 +1,5 @@
-🔁 Singleton Design Pattern :-
+------------------------------------------- 🔁 Singleton Design Pattern --------------------------------------------->
+
 
     => Singleton is a creational design pattern that lets you ensure that a class has only one instance, while providing a
       global access point to this instance.
@@ -96,3 +97,183 @@
         1. Violates the Single Responsibility Principle. The pattern solves two problems at the time.
         2. The Singleton pattern can mask bad design, for instance, when the components of the 
             program know too much about each other.
+
+
+
+
+------------------------------------------- 🏭 Factory Method Design Pattern --------------------------------------------->
+
+
+
+    => The Factory Method is a creational design pattern that provides an interface for creating objects
+        in a superclass, but allows subclasses to alter the type of objects that will be created.
+
+    Note:- It decouples the object creation logic from the code that uses the object.
+
+
+    ⚙️ Without Factory Method:-
+
+        => Javascript:- 
+            class Truck {
+                deliver() {
+                    console.log("Deliver by land in a box.");
+                }
+            }
+
+            class Ship {
+                deliver() {
+                    console.log("Deliver by sea in a container.");
+                }
+            }
+
+            // Client Code
+            function planDelivery(type) {
+                let transport;
+                if (type === "truck") {
+                    transport = new Truck();
+                } else if (type === "ship") {
+                    transport = new Ship();
+                } else {
+                    throw new Error("Invalid transport type");
+                }
+
+                transport.deliver();
+            }
+
+            planDelivery("truck");
+        
+
+        => Python:-
+
+            class Truck:
+                def deliver(self):
+                    print("Deliver by land in a box.")
+
+            class Ship:
+                def deliver(self):
+                    print("Deliver by sea in a container.")
+
+            # Client Code
+            def plan_delivery(transport_type):
+                if transport_type == "truck":
+                    transport = Truck()
+                elif transport_type == "ship":
+                    transport = Ship()
+                else:
+                    raise ValueError("Invalid transport type")
+
+                transport.deliver()
+
+            plan_delivery("truck")
+
+
+
+✅ With Factory Method:-
+    
+    => Javascript
+        class Transport {
+            deliver() {
+                throw new Error("Must implement deliver");
+            }
+        }
+
+        class Truck extends Transport {
+            deliver() {
+                console.log("Deliver by land in a box.");
+            }
+        }
+
+        class Ship extends Transport {
+            deliver() {
+                console.log("Deliver by sea in a container.");
+            }
+        }
+
+        class Logistics {
+            planDelivery() {
+                const transport = this.createTransport();
+                transport.deliver();
+            }
+
+            createTransport() {
+                throw new Error("Must implement createTransport");
+            }
+        }
+
+        class RoadLogistics extends Logistics {
+            createTransport() {
+                return new Truck();
+            }
+        }
+
+        class SeaLogistics extends Logistics {
+            createTransport() {
+                return new Ship();
+            }
+        }
+
+        // Client
+        const logistics = new RoadLogistics();
+        logistics.planDelivery();
+
+
+    => Python:-
+
+        from abc import ABC, abstractmethod
+
+        # Product Interface
+        class Transport(ABC):
+            @abstractmethod
+            def deliver(self):
+                pass
+
+        class Truck(Transport):
+            def deliver(self):
+                print("Deliver by land in a box.")
+
+        class Ship(Transport):
+            def deliver(self):
+                print("Deliver by sea in a container.")
+
+        # Factory Base
+        class Logistics(ABC):
+            def plan_delivery(self):
+                transport = self.create_transport()
+                transport.deliver()
+
+            @abstractmethod
+            def create_transport(self) -> Transport:
+                pass
+
+        # Factories
+        class RoadLogistics(Logistics):
+            def create_transport(self):
+                return Truck()
+
+        class SeaLogistics(Logistics):
+            def create_transport(self):
+                return Ship()
+
+        # Client
+        logistics = RoadLogistics()
+        logistics.plan_delivery()
+
+
+
+    🧠 Benefits of Factory Method:-
+
+    1. You avoid tight coupling between the creator and the concrete products.
+    2. Single Responsibility Principle. You can move the product creation code into one place 
+        in the program, making the code easier to support.
+    3. Open/Closed Principle. You can introduce new types of products into the program without
+        breaking existing client code.
+
+
+    ⚠️ Caution:-
+
+    1. The code may become more complicated since you need to introduce a lot of new subclasses 
+        to implement the pattern.
+
+
+
+        
