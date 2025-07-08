@@ -276,4 +276,171 @@
 
 
 
+
+
+------------------------------------------- 🏭 Abstract Factory Pattern  --------------------------------------------->
+
+
+🧰 Abstract Factory Pattern:-
+    Abstract factory is a creational design pattern that lets you produce families of related objects 
+     without specifying their concrete classes.
+
+
+    ⚙️ Without Abstract Factory:-
+
+    // Typescript:-
+
+        class LightButton {
+            render() {
+                console.log("Rendering Light Button");
+            }
+        }
+
+        class DarkButton {
+            render() {
+                console.log("Rendering Dark Button");
+            }
+        }
+
+        function createUI(theme: string) {
+            let button, checkbox;
+
+            if (theme === "light") {
+                button = new LightButton();
+            } else if (theme === "dark") {
+                button = new DarkButton();
+            } else {
+                throw new Error("Invalid theme");
+            }
+
+            button.render();
+            checkbox.render();
+        }
+
+        createUI("light");
+
+    
+    => Python:-
+
+        class LightButton:
+            def render(self):
+                print("Rendering Light Button")
+
+        class DarkButton:
+            def render(self):
+                print("Rendering Dark Button")
+
+
+        # Client code
+        def create_ui(theme):
+            if theme == "light":
+                button = LightButton()
+            elif theme == "dark":
+                button = DarkButton()
+            else:
+                raise ValueError("Invalid theme")
+
+            button.render()
+
+        create_ui("dark")
+
+
+
+    ✅ With Abstract Factory
+
+        // TypeScript – 
+
+            // Product Interfaces
+            interface Button {
+                render(): void;
+            }
+
+            // Concrete Products
+            class LightButton implements Button {
+                render() {
+                    console.log("Rendering Light Button");
+                }
+            }
+
+            class DarkButton implements Button {
+                render() {
+                    console.log("Rendering Dark Button");
+                }
+            }
+
+            // Abstract Factory
+            interface UIFactory {
+                createButton(): Button;
+            }
+
+            // Concrete Factories
+            class LightUIFactory implements UIFactory {
+                createButton(): Button {
+                    return new LightButton();
+                }
+            }
+
+            class DarkUIFactory implements UIFactory {
+                createButton(): Button {
+                    return new DarkButton();
+                }
+            }
+
+            // Client
+            function renderUI(factory: UIFactory) {
+                const button = factory.createButton();
+                button.render();
+            }
+
+
+            renderUI(new LightUIFactory());
+
         
+    => Python:-
+
+        from abc import ABC, abstractmethod
+
+        # Product Interfaces
+        class Button(ABC):
+            @abstractmethod
+            def render(self):
+                pass
+
+
+        # Concrete Products
+        class LightButton(Button):
+            def render(self):
+                print("Rendering Light Button")
+
+        class DarkButton(Button):
+            def render(self):
+                print("Rendering Dark Button")
+
+
+        # Abstract Factory
+        class UIFactory(ABC):
+            @abstractmethod
+            def create_button(self) -> Button:
+                pass
+
+
+        # Concrete Factories
+        class LightUIFactory(UIFactory):
+            def create_button(self):
+                return LightButton()
+            
+
+        class DarkUIFactory(UIFactory):
+            def create_button(self):
+                return DarkButton()
+
+
+        # Client
+        def render_ui(factory: UIFactory):
+            button = factory.create_button()
+            button.render()
+
+        render_ui(DarkUIFactory())
+
+
+
