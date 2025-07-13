@@ -403,6 +403,12 @@ Question:- What will happen if we will apply Dijkstra’s algorithm for this pur
 
 ------------------------------------------------------------------------------------------------------------------------------->
 
+NOTE:- 
+    Minimum spanning Tree:-
+    => A minimum spanning tree (MST) is a subset of edges in a connected, weighted, undirected graph that connects
+        all vertices with the minimum total edge weight, without forming any cycles
+
+
 Question 7:- Prim's Algorithm - Minimum Spanning Tree - C++
 Problem Statement: Given a weighted, undirected, and connected graph of V vertices and E edges. The task is to find
             the sum of weights of the edges of the Minimum Spanning Tree. (Sometimes it may be asked to find the MST
@@ -444,6 +450,8 @@ Problem Statement: Given a weighted, undirected, and connected graph of V vertic
         }
         return sum;
     }
+
+    Time Complexity: O(E*logE) + O(E*logE) = O(E*logE)
 
     
 ------------------------------------------------------------------------------------------------------------------------------->
@@ -598,3 +606,8 @@ LINK:- https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1
 
         return mstWt;
     }
+
+
+    Time Complexity: O(N+E) + O(E logE) + O(E*4α*2)  = O(E*4*2) 
+        => There are two disjoint set operations like findUPar() and UnionBySize() each taking
+            4 and so it will result in 4*2.
