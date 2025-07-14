@@ -485,11 +485,15 @@ Question ->Difference between  unionByRank and unionBySize ?
         DisjointSet(int n) {
             rank.resize(n + 1, 0);
             parent.resize(n + 1);
-            size.resize(n + 1);
-            for (int i = 0; i <= n; i++) {
-                parent[i] = i;
-                size[i] = 1;
-            }
+            size.resize(n + 1,1);
+
+            // Fill myVector with values starting from 0
+            iota(parent.begin(), parent.end(), 0);
+
+            // for (int i = 0; i <= n; i++) {
+            //    parent[i] = i;
+            //    size[i] = 1;
+            // }
         }
 
         int findUPar(int node) {
