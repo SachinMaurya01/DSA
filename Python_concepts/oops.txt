@@ -218,10 +218,18 @@
                 print(f"Dog's Name: {self.name}")
 
         class Labrador(Dog):  # Partial Abstraction
+
+            def __init__(self,name):
+                super().__init__(name)
+
             def sound(self):
                 print("Labrador Woof!")
 
         class Beagle(Dog):  # Partial Abstraction
+
+            def __init__(self,name):
+                super().__init__(name)
+                
             def sound(self):
                 print("Beagle Bark!")
 

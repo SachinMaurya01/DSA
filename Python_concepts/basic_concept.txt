@@ -34,14 +34,13 @@
 
             2. for y in dict.values():©leetcode
 
-
 => Zip in python:- 
 
     Ex:-
         names = ["Alice", "Bob", "Charlie"]
         ages = [25, 30, 28]
 
-        # Combining names and ages into tuples
+        # Combining names and ages into tuples both names and age length should be same
         zipped_data = zip(names, ages)  # Output: [('Alice', 25), ('Bob', 30), ('Charlie', 28)]
 
 
@@ -103,6 +102,9 @@
         sorted([3, 1, 2]) # ➝ [1, 2, 3]
         sorted(['cat', 'apple', 'bat']) # ➝ ['apple', 'bat', 'cat']
 
+        // Sort List based on 2nd element descending
+        edges.sort(key = lambda e: -e[2])
+
 
 => Reversing;-
     Ex:- 
@@ -126,7 +128,7 @@
     Ex:- 
         s = "aabbcc"
         freq = {ch: s.count(ch) for ch in set(s)}
-        print(freq);
+        print(freq);   # {'b': 2, 'a': 2, 'c': 2}
 
 
 => Unique items
