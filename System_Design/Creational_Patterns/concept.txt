@@ -444,3 +444,256 @@
 
 
 
+
+
+------------------------------------------- 🧱 Builder Design Pattern  --------------------------------------------->
+
+
+    => The Builder Pattern separates the construction of a complex object from its representation,
+        so the same construction process can create different representations.
+
+    
+    ⚙️ Without Builder Pattern :-
+
+        => Typescript:-
+
+            class UserProfile {
+                constructor(
+                    public name: string,
+                    public age?: number,
+                    public email?: string,
+                    public address?: string
+                ) {}
+            }
+
+            const user = new UserProfile("Alice", 30, undefined, "NY");
+            console.log(user);
+
+        
+        => Python:-
+
+        class UserProfile:
+            def __init__(self, name, age=None, email=None, address=None):
+                self.name = name
+                self.age = age
+                self.email = email
+                self.address = address
+
+        # Client Code
+        user = UserProfile("Alice", age=30, address="NY")
+        print(user.__dict__)
+
+
+
+        ✅ After Using Builder Pattern
+
+        => Typescript:-
+
+        class UserProfile {
+            constructor(
+                public name: string,
+                public age?: number,
+                public email?: string,
+                public address?: string
+            ) {}
+        }
+
+            // Builder
+        class UserProfileBuilder {
+            private name: string;
+            private age?: number;
+            private email?: string;
+            private address?: string;
+
+            constructor(name: string) {
+             this.name = name;
+            }
+
+            setAge(age: number): UserProfileBuilder {
+                this.age = age;
+                return this;
+            }
+
+            setEmail(email: string): UserProfileBuilder {
+                this.email = email;
+                return this;
+            }
+
+            setAddress(address: string): UserProfileBuilder {
+                this.address = address;
+                return this;
+            }
+
+            build(): UserProfile {
+                return new UserProfile(this.name, this.age, this.email, this.address);
+            }
+        }
+
+        const user = new UserProfileBuilder("Alice")
+        .setAge(30)
+        .setAddress("NY")
+        .build();
+
+        console.log(user);
+
+
+        => Python:-
+
+        class UserProfile:
+            def __init__(self, name, age=None, email=None, address=None):
+                self.name = name
+                self.age = age
+                self.email = email
+                self.address = address
+
+            def __repr__(self):
+                return f"UserProfile(name={self.name}, age={self.age}, email={self.email}, address={self.address})"
+
+        # Builder
+        class UserProfileBuilder:
+            def __init__(self, name):
+                self.name = name
+                self.age = None
+                self.email = None
+                self.address = None
+
+            def set_age(self, age):
+                self.age = age
+                return self
+
+            def set_email(self, email):
+                self.email = email
+                return self
+
+            def set_address(self, address):
+                self.address = address
+                return self
+
+            def build(self):
+                return UserProfile(self.name, self.age, self.email, self.address)
+
+        # Client
+        user = UserProfileBuilder("Alice").set_age(30).set_address("NY").build()
+        print(user)
+
+
+        🧠 Pros:-
+
+            1. You can construct objects step-by-step, defer construction steps or run steps recursively.
+            2. You can reuse the same construction code when building various representations of products.
+            3. Single Responsibility Principle. You can isolate complex construction code from the business
+                logic of the product.
+
+
+        ⚠️ Cons :-
+
+            1. The overall complexity of the code increases since the pattern requires creating multiple
+                new classes.
+
+
+
+
+------------------------------------------- 🧬 Prototype Design Pattern  --------------------------------------------->
+
+
+    => The Prototype Pattern is used to clone objects, especially when creating new instances is costly
+        (e.g., deep configuration or database-heavy creation).
+
+        Note:- Instead of instantiating a new object, you copy an existing one (prototype).
+
+
+    ⚙️ Without Prototype Pattern :-
+
+        => Typescript:-
+
+            class Monster {
+                constructor(
+                    public type: string,
+                    public health: number,
+                    public attack: number,
+                    public skills: string[]
+                ) {}
+            }
+
+            const monster1 = new Monster("Dragon", 100, 50, ["fire", "fly"]);
+            const monster2 = new Monster(
+                monster1.type,
+                monster1.health,
+                monster1.attack,
+                [...monster1.skills]
+            );
+
+            console.log(monster1 === monster2); // false
+            console.log(monster2.skills);
+
+
+        => Python:-
+        
+        class Monster:
+            def __init__(self, type, health, attack, skills):
+                self.type = type
+                self.health = health
+                self.attack = attack
+                self.skills = skills
+
+        # Client manually duplicates
+        monster1 = Monster("Dragon", 100, 50, ["fire", "fly"])
+        monster2 = Monster(monster1.type, monster1.health, monster1.attack, monster1.skills[:])  # Manual copy
+
+        print(monster1 is monster2)  # False
+        print(monster2.skills)
+
+
+
+    ✅ After Using Builder Pattern :-
+
+        => Typescript:-
+
+            class Monster {
+                constructor(
+                    public type: string,
+                    public health: number,
+                    public attack: number,
+                    public skills: string[]
+                ) {}
+
+                clone(): Monster {
+                    return new Monster(this.type, this.health, this.attack, [...this.skills]);
+                }
+            }
+
+            // Create prototype
+            const prototype = new Monster("Dragon", 100, 50, ["fire", "fly"]);
+
+            const monster1 = prototype.clone();
+            const monster2 = prototype.clone();
+            monster2.skills.push("invisible");
+
+            console.log(monster1.skills); // ['fire', 'fly']
+            console.log(monster2.skills); // ['fire', 'fly', 'invisible']
+
+
+        => Python:-
+
+            import copy
+
+            class Monster:
+                def __init__(self, type, health, attack, skills):
+                    self.type = type
+                    self.health = health
+                    self.attack = attack
+                    self.skills = skills
+
+                def clone(self):
+                    return copy.deepcopy(self)
+
+            # Create base prototype
+            prototype_monster = Monster("Dragon", 100, 50, ["fire", "fly"])
+
+            # Clone from prototype
+            monster1 = prototype_monster.clone()
+            monster2 = prototype_monster.clone()
+            monster2.skills.append("invisible")
+
+            print(monster1.skills)  # ['fire', 'fly']
+            print(monster2.skills)  # ['fire', 'fly', 'invisible']
