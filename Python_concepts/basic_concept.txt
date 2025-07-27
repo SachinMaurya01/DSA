@@ -32,7 +32,7 @@
 
             1. for x, y in thisdict.items():
 
-            2. for y in dict.values():©leetcode
+            2. for y in dict.values():
 
 => Zip in python:- 
 

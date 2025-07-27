@@ -267,13 +267,18 @@ Approach/Intitution:-
         return path;
     }
 
+    Time Complexity: O((V + E) log V)
+    Space Complexity: O(V)
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------->
 
 Question 5: Bellman Ford Algorithm: G-41
 Problem Statement: Given a weighted, directed and connected graph of V vertices and E edges, Find the shortest distance of 
                 all the vertices from the source vertex S.
 
-LINK:- https://www.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/
+LINK:- https://www.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/1
 
 NOTE:- 
     1) The bellman-Ford algorithm helps to find the shortest distance from the source node to all other nodes. 
@@ -336,6 +341,10 @@ Q2:- How to detect a negative cycle in the graph ?
 
 		return dist;
 	}
+
+    Time Complexity: O(V*E)
+    Space Complexity: O(V)
+
 
 
 ------------------------------------------------------------------------------------------------------------------------------->
@@ -400,6 +409,10 @@ Question:- What will happen if we will apply Dijkstra’s algorithm for this pur
 		}
 	}
 
+    Time Complexity: O(V3)
+    Space Complexity: O(V)
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------->
 
@@ -414,6 +427,15 @@ Problem Statement: Given a weighted, undirected, and connected graph of V vertic
             the sum of weights of the edges of the Minimum Spanning Tree. (Sometimes it may be asked to find the MST
             as well, where in the MST the edge-informations will be stored in the form {u, v}(u = starting node, 
             v = ending node).)
+
+
+    Q -> Why prism is better than dijkstra algorithm both have same time complexity ?
+    => 1. Prim's algorithm can correctly find an MST even in graphs containing negative edge weights.
+       2. Prim's algorithm is better suited for finding Minimum Spanning Trees, while Dijkstra's algorithm is 
+           better for finding shortest paths from a single source
+
+
+LINK:- https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1
 
 // Approach / Intitution:-
 1. We need priority_queue ( min heap ) to keep track track of min weighted edge.
@@ -556,6 +578,9 @@ Question ->Difference between  unionByRank and unionBySize ?
     }
 
 
+    Time Complexity:- O(4) => O(1)
+
+
 ------------------------------------------------------------------------------------------------------------------------------->
 
 Question 9:- Kruskal's Algorithm - Minimum Spanning Tree : G-47
@@ -615,3 +640,5 @@ LINK:- https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1
     Time Complexity: O(N+E) + O(E logE) + O(E*4α*2)  = O(E*4*2) 
         => There are two disjoint set operations like findUPar() and UnionBySize() each taking
             4 and so it will result in 4*2.
+
+            
