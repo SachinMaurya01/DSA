@@ -255,3 +255,26 @@
 
     1. Ord() -> takes a single character and return its integer unicode
         Ex:- print(ord('A')) 
+
+
+    2. global -> Used to declare that a variable inside a function refers to a variable
+                in the global scope.
+
+        Ex:- 
+            x = 10  # Global variable
+            def modify_global():
+                global x
+
+    3. Shallow and Deep Copy:- 
+
+        Shallow:- References the same nested objects as the original.
+            Ex:- a = [[1, 2, 3], [4, 5, 6]]
+
+                # Creating a shallow copy of the nested list 'original'
+                b = copy.copy(a)
+
+        Deep Copy:- Recursively creates new copies of all nested objects.
+            Ex:- a = [[1, 2, 3], [4, 5, 6]]
+
+                # Creating a deep copy of the nested list 'a'
+                b = copy.deepcopy(a)
