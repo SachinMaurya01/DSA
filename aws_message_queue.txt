@@ -1,0 +1,130 @@
+
+// General Flow:- 
+
+    => When an event happens (e.g., OrderCreated):
+        1. Producer service writes business data to its DB and appends an Outbox record in the same transaction.
+        2. An Outbox relay (small background worker) publishes the event to SNS (fan-out) or EventBridge (routing).
+        3. Each Consumer service has its own SQS queue subscription (FIFO if ordering matters), with:
+            1. Visibility Timeout > max processing time
+            2. MaxReceiveCount for DLQ handoff
+            3. Content-based dedup/idempotency at the consumer
+        4. The consumer calls the third-party API behind a circuit breaker.
+        5. If a call fails, exponential backoff + jitter is applied by changing the message visibility (no delete).
+        6. After MaxReceiveCount, the message goes to DLQ for triage, alerting, and safe redrive after a fix.
+
+
+    => Consumer service :- 
+
+        1. Uses sqs-consumer under the hood (battle-tested) and AWS SDK v3.
+        Key ideas:
+            1. Read ApproximateReceiveCount to compute backoff.
+            2. On failure or long running task, do not delete the message; instead ChangeMessageVisibility to 
+                the next delay (exponential + jitter).
+            3. When receive count exceeds maxReceiveCount, SQS moves it to DLQ.
+
+    
+    => DLQ operations & redrive
+
+        1. Create CloudWatch Alarms on DLQ ApproximateNumberOfMessagesVisible > 0.
+        2. Use the “Start DLQ Redrive” (console/API) to push messages back to the source queue after a fix, or build a small tool that:
+            1. Reads DLQ
+            2. Sanitizes/fixes the payload
+            3. Sends to the source queue with DelaySeconds to smooth the surge
+
+    
+    => Tuning checklist
+
+        1. Visibility timeout: > worst_case_processing_time + network jitter.
+        2. Long polling: WaitTimeSeconds=20 to cut cost and reduce empty receives.
+        3. MaxReceiveCount: 5–10 (depends on your backoff schedule).
+        4. Backoff window: start small (5–10s) and cap (e.g., 30–60m for most cases).
+        5. Circuit breaker: trip quickly on sustained errors and allow quick recovery (half-open tests).
+        6. Observability: emit metrics for success/failure, breaker state, external latency, queue depth; trace with X-Ray or OpenTelemetry.
+    
+
+// Components:- 
+
+    1. Amazon SQS (Simple Queue Service)
+
+        Purpose
+            1. Acts as a decoupling layer between producer and consumer microservices.
+            2. Stores messages until they are successfully processed.
+            3. Handles retries and ensures at-least-once delivery.
+
+        Use Cases
+            1. Buffering events when consumer microservice is unavailable or under heavy load.
+            2. Retrying failed processing without losing data.
+
+    
+    2. Amazon SNS (Simple Notification Service)
+
+        Purpose
+            1. Provides pub/sub fan-out messaging.
+            2. Allows one producer to send an event that multiple consumers receive independently.
+        
+        Use Cases
+            1. Order Service publishes OrderCreated → Inventory, Billing, and Notification services all react.
+            2. Broadcasting domain events to multiple microservices or external systems.
+
+
+    3. Dead Letter Queue (DLQ)
+
+        Purpose
+            1. Captures messages that failed after multiple retries (maxReceiveCount).
+            2. Ensures no message is silently dropped.
+
+        Use Cases
+            1. Debugging poison-pill messages that always fail.
+            2. Analyzing third-party API failures.
+            3. Redriving fixed messages back into the main queue.
+
+
+    4. Consumer Worker (ECS/Lambda/Service)
+
+        Purpose
+            1. Polls messages from its SQS queue.
+            2. Applies business logic (e.g., call Inventory DB, invoke third-party API).
+            3. Manages retries and message deletion only after success.
+
+        Use Cases
+            1. Inventory Service decreases stock on OrderCreated.
+            2. Billing Service charges customer on OrderCreated.
+            3. Notification Service sends confirmation email.
+
+
+    5. Redrive Policy
+
+        Purpose
+            1. Allows moving messages from DLQ back to the source queue after fixing the issue.
+
+        Use Cases
+            1. Replaying failed third-party API calls after outage resolution.
+            2. Retrying poison messages after adding missing validation logic.
+        
+
+    6. AWS Lamda:-
+
+        1. Each SQS queue → needs its own Lambda consumer.
+        2. Why? Because Lambda is trigger-based, and you attach a Lambda event source mapping to each queue.
+        3. If you have 2 queues, you’ll have 2 Lambda functions (or the same function deployed twice with 
+            different triggers).
+        
+        Example:- 
+        
+            Order Service ---> SNS Topic: OrderTopic ---> SQS Queue: OrderQueue ---> Lambda: OrderLambda
+            Payment Service -> SNS Topic: PaymentTopic -> SQS Queue: PaymentQueue -> Lambda: PaymentLambda
+
+        Note:-
+            So in your case: 2 topics + 2 queues = 2 Lambda functions (one per queue).
+            👉 If tomorrow you add 3rd microservice, you add 1 more queue + 1 more Lambda.
+        
+        
+    Flow:-
+
+        Producer Service ---> SNS Topic ---> SQS Queue ---> Lambda Consumer
+                                                      |
+                                                      v
+                                               Third-Party API / DB
+                                                      |
+                                         Success → delete msg from SQS
+                                         Failure → retry / DLQ
