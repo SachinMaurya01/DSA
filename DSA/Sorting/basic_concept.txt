@@ -2,9 +2,10 @@
 
 
 => Selection Sort:-
+    Find the minimum element and put it at the front.
 
-
-    Ex:- Code Logic
+    Ex:- 
+        // C++
         void selection_sort(int arr[], int n) {
             // selection sort
             for (int i = 0; i < n - 1; i++) {
@@ -20,13 +21,26 @@
             }
         }
 
+        // Python
+        def selection_sort(arr):
+            n = len(arr)
+            for i in range(n):
+                min_idx = i
+                for j in range(i+1, n):
+                    if arr[j] < arr[min_idx]:
+                        min_idx = j
+                arr[i], arr[min_idx] = arr[min_idx], arr[i]
+            return arr
+
     Time complexity: O(N*N)
     Space Complexity: O(1)
 
 
-=> Bubble Sort
+=> Bubble Sort:- 
+    Repeatedly swap adjacent elements if they’re in the wrong order. ( pushes element at end )
 
     Ex:-
+        // C++
         void bubble_sort(int arr[], int n) {
             // bubble sort
             for (int i = n - 1; i >= 0; i--) {
@@ -39,12 +53,23 @@
                 }
             }
         }
+
+        // Python
+        def bubble_sort(arr):
+            n = len(arr)
+            for i in range(n):
+                for j in range(0,n-i-1):
+                    if arr[j] > arr[j+1]:
+                        arr[j],arr[j+1] = arr[j+1], arr[j]
+        
+        return arr;
     
     Time complexity: O(N*N)
     Space Complexity: O(1)
 
 
 => Insertion Sort:-
+    Build a sorted array one element at a time.
 
     Approach / Intitution: 
 
@@ -54,6 +79,7 @@
         3. The “inner while loop” basically shifts the elements using swapping.
 
     Ex:- 
+        // C++
         void insertion_sort(int arr[], int n) {
             for (int i = 0; i <= n - 1; i++) {
                 int j = i;
@@ -65,6 +91,22 @@
                 }
             }
         }
+
+        // Python
+        def insertion(arr):
+            n=len(arr)
+            for i in range(1,n):
+                key=arr[i]
+                j=i-1
+                
+                while j>=0 and arr[j]>key:
+                    arr[j+1]=arr[j]
+                    j-=1
+                # 14753
+                arr[j+1]=key
+            
+            return arr;
+
 
     Time complexity: O(N*N)
     Space Complexity: O(1)
@@ -89,6 +131,9 @@
 
 
     Ex:-
+
+        // C++
+
         void merge(vector<int> &arr, int low, int mid, int high) {
             vector<int> temp; // temporary array
             int left = low;      // starting index of left half of arr
@@ -134,6 +179,33 @@
             merge(arr, low, mid, high);  // merging sorted halves
         }
 
+        // Python
+            def merge_sort(start,end):
+                res = []
+                i=j=0
+
+                while i < len(start) and j < len(end):
+                    if start[i] < end[j]:
+                        res.append(start[i])
+                        i+=1
+                    else:
+                        res.append(end[j])
+                        j+=1
+                
+                res.extend(start[i:])
+                res.extend(end[j:])
+                return res
+
+            def merge(arr):
+                if len(arr) <= 1:
+                    return arr
+                
+                mid = len(arr)//2
+                left = merge(arr[:mid])
+                right = merge(arr[mid:])
+
+                return merge_sort(left,right)
+
     Time complexity: O(nlogn) 
     Space Complexity: O(1)
 
@@ -147,6 +219,8 @@
         and larger ones to the right.
 
     Ex:- 
+        // C++
+
         int partition(vector<int> &arr, int low, int high) {
             int pivot = arr[low];
             int i = low;
@@ -178,6 +252,40 @@
             qs(arr, 0, arr.size() - 1);
             return arr;
         }
+
+        // Python 
+
+        def quick_sort(arr):
+            if len(arr) < 1:
+                return arr
+            
+            pivot = arr[len(arr)//2]
+            left=[x for x in arr if x < pivot]
+            mid=[x for x in arr if x==pivot]
+            right=[x for x in arr if x > pivot]
+
+            return quick_sort(left) + mid + quick_sort(right)
+
+    Time complexity: O(N*logN)
+    Space Complexity: O(1)
+
+
+
+=> Heap Sort :-
+
+    Approach / Intitution: 
+
+    => Use a binary heap to repeatedly extract max/min.
+
+    Example:- 
+        // Python
+
+        import heapq
+
+        def heap_sort(arr):
+            heapq.heapify(arr)
+            return [heapq.heappop(arr) for _ in range(len(arr))]
+
 
     Time complexity: O(N*logN)
     Space Complexity: O(1)
