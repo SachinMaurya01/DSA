@@ -1,7 +1,20 @@
 
+=> Input / Output
+    input() reads user input as a string, while print() displays output on the screen.
+    Convert input using int(), float(), etc., when needed.
+    Ex:- 
+        name = input("Enter your name: ")
+        print("Hello,", name)
+
+
 => To find len of array and string
     Ex:- len(<variable>);
 
+=> Lambda Functions
+    Lambda functions are anonymous one-line functions used for simple operations. 
+    They are commonly used with map(), filter(), and sorted()
+    Ex:- square = lambda x: x * x
+        print(square(5))
 
 => To set the variable maxValue and minValue:-
     Ex:- val = float('inf')
@@ -164,6 +177,38 @@
         1.  dp =[ [-1 for _ in range(n+1)] for _ in range(n)]
         2.  dp = [["."] * n for _ in range(n)]
         3.  prev = [0] * (m + 1)
+
+
+/// Advanced Python
+
+    =>  List Comprehension:- List comprehension provides a concise way to create lists.
+        Ex:- numbers = [x * x for x in range(5)]
+
+    => Dictionary Comprehension:- Dictionary comprehension creates dictionaries in a single line using loops and expressions.
+        Ex:- square = {x: x * x for x in range(5)}
+
+    => Decorators:- Decorators modify or extend the behavior of functions without changing their source code.
+        They are commonly used for logging, authentication, and timing.
+        Ex:- def decorator(func):
+                def wrapper():
+                    print("Before")
+                    func()
+                    print("After")
+                return wrapper
+
+            @decorator
+            def hello():
+                print("Hello")
+
+            hello()
+
+    => Exception Handling:- Exception handling prevents program crashes by catching runtime errors using try,
+        except, else, and finally
+        Ex:- try:
+                print(10 / 0)
+            except ZeroDivisionError:
+                print("Cannot divide by zero")
+
 
 => Heap:-
 

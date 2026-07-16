@@ -32,7 +32,19 @@
             attributes and methods of the object.
 
 
-3. Inheritance :- 
+3. Constructor:- 
+    A constructor (__init__) is automatically called when an object is created. It initializes object attributes.
+
+    Ex:- 
+        class Student:
+            def __init__(self, name):
+                self.name = name
+
+        s = Student("Rahul")
+
+        print(s.name)
+
+4. Inheritance :- 
     -> Inheritance allows a class (child class) to acquire properties and methods of another class (parent class).
 
     Types of Inheritance:
@@ -83,7 +95,7 @@
         retriever.greet()
         retriever.sound()
 
-4. Polymorphism:- 
+5. Polymorphism:- 
     -> Polymorphism allows methods to have the same name but behave differently based on the object's
         context. It can be achieved through method overriding or overloading.
 
@@ -128,7 +140,7 @@
         print(calc.add(5, 10, 15))  # Three arguments
 
 
-4. Encapsulation- 
+6. Encapsulation- 
     -> Encapsulation is the bundling of data (attributes) and methods (functions) within a class, restricting
         access to some components to control interactions.
 
@@ -195,7 +207,7 @@
         -> Private Members: Used with __, such as __age. Access requires getter and setter methods.
 
 
-5. Abstraction :- 
+7. Abstraction :- 
     -> Abstraction hides the internal implementation details while exposing only the necessary functionality.
         It helps focus on "what to do" rather than "how to do it."
 
