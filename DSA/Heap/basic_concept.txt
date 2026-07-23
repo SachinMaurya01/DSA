@@ -111,3 +111,29 @@ Q1:- Build a min heap?
         } 
         return 0; 
     } 
+
+
+==================================================================================>
+
+// Python heap implementation
+
+Code:- 
+    import heapq
+
+    # --- MIN HEAP ---
+    min_heap = []
+    heapq.heappush(min_heap, 10)
+    heapq.heappush(min_heap, 5)
+    heapq.heappush(min_heap, 20)
+
+    print("Min-Heap Smallest:", min_heap[0])         # Output: 5
+    print("Min-Heap Pop:", heapq.heappop(min_heap))  # Output: 5 (Removes 5)
+
+    # --- MAX HEAP (Invert numbers) ---
+    max_heap = []
+    heapq.heappush(max_heap, -10)  # Push -10 instead of 10
+    heapq.heappush(max_heap, -5)
+    heapq.heappush(max_heap, -20)
+
+    print("Max-Heap Largest:", -max_heap[0])         # Output: 20 (Multiply by -1 back)
+    print("Max-Heap Pop:", -heapq.heappop(max_heap)) # Output: 20 (Removes 20)

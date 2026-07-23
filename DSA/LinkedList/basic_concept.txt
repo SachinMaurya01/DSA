@@ -56,3 +56,61 @@
         cout<<y<<'\n'; // returns the memory value
         cout<<y->data<<'\n'; // returns the data stored at that memory point
     }
+
+
+    // Python Code:-
+
+        class Node:
+            """Represents a single node in the linked list."""
+            def __init__(self, data=None):
+                self.data = data
+                self.next = None  # Pointer to the next node
+
+        class LinkedList:
+            """Manages the linked list operations."""
+            def __init__(self):
+                self.head = None  # Points to the first node
+
+            def insert_at_beginning(self, data):
+                """Adds a new node to the front of the list."""
+                new_node = Node(data)
+                new_node.next = self.head
+                self.head = new_node
+
+            def insert_at_end(self, data):
+                """Adds a new node to the tail of the list."""
+                new_node = Node(data)
+                if not self.head:
+                    self.head = new_node
+                    return
+                
+                current = self.head
+                while current.next:
+                    current = current.next
+                current.next = new_node
+
+            def delete_by_value(self, target):
+                """Removes the first node containing the specified value."""
+                if not self.head:
+                    return False  # Empty list
+                    
+                if self.head.data == target:
+                    self.head = self.head.next
+                    return True
+
+                current = self.head
+                while current.next:
+                    if current.next.data == target:
+                        current.next = current.next.next
+                        return True
+                    current = current.next
+                return False  # Value not found
+
+            def display(self):
+                """Prints the visual path of the linked list."""
+                elements = []
+                current = self.head
+                while current:
+                    elements.append(str(current.data))
+                    current = current.next
+                print(" -> ".join(elements) + " -> None")

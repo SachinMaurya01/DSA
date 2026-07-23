@@ -235,7 +235,7 @@
 
 => Some Key Concepts:-
 
-    1. If you we are calling Dummy.output() without an instance and without passing self,
+    1. If we are calling Dummy.output() without an instance and without passing self,
         you should declare it as a static method:
         Ex:- 
             class Dummy:
@@ -264,18 +264,9 @@
                 # This code will only run when the module is executed directly
                 print("This is the main program.")
                 some_function()
-
-
-    3. To get input from python -> Input() is used 
-        Ex:-
-            # input
-            input1 = input()
-            
-            # output
-            print(input1)
         
 
-    4. *args and **kwargs :-
+    3. *args and **kwargs :-
             => *args -  The special syntax *args in function definitions is used to pass a variable number
                         of arguments to a function
 
