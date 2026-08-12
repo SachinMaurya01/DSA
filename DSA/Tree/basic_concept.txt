@@ -3,38 +3,67 @@
 
 // Implement Binary Tree In C++:-
 
-using namespace std;
-// Node structure for the binary tree
-struct Node {
-    int data;
-    Node* left;
-    Node* right;
-    // Constructor to initialize
-    // the node with a value
-    Node(int val){
-        data = val;
-        left = right = NULL;
-    }
-};
+    using namespace std;
+    // Node structure for the binary tree
+    struct Node {
+        int data;
+        Node* left;
+        Node* right;
+        // Constructor to initialize
+        // the node with a value
+        Node(int val){
+            data = val;
+            left = right = NULL;
+        }
+    };
 
-class Solution {
-public:
-    vector<int> rightsideView(Node* root){
-    }
-};
+    class Solution {
+    public:
+        vector<int> rightsideView(Node* root){
+        }
+    };
 
-int main() {
-    // Creating a sample binary tree
-    Node* root = new Node(1);
-    root->left = new Node(2);
-    root->left->left = new Node(4);
-    root->left->right = new Node(10);
-    root->left->left->right = new Node(5);
-    root->left->left->right->right = new Node(6);
-    root->right = new Node(3);
-    Solution solution;
-    return 0;
-}
+    int main() {
+        // Creating a sample binary tree
+        Node* root = new Node(1);
+        root->left = new Node(2);
+        root->left->left = new Node(4);
+        root->left->right = new Node(10);
+        root->left->left->right = new Node(5);
+        root->left->left->right->right = new Node(6);
+        root->right = new Node(3);
+        Solution solution;
+        return 0;
+    }
+
+
+// Python Implementation:-
+
+
+    Code:-
+        class BinaryTreeNode:
+            def __init__(self, data):
+                self.data = data
+                self.left = None   # Pointer to left child
+                self.right = None  # Pointer to right child
+
+        # Standard Depth-First Traversals (DFS)
+        def print_inorder(node):
+            """Left -> Root -> Right"""
+            if node:
+                print_inorder(node.left)
+                print(node.data, end=" ")
+                print_inorder(node.right)
+
+        # --- Usage Example ---
+        root = BinaryTreeNode("Root")
+        root.left = BinaryTreeNode("Left Child")
+        root.right = BinaryTreeNode("Right Child")
+
+        print("In-order Traversal:")
+        print_inorder(root)  # Output: Left Child Root Right Child
+
+
 
 ------------------------------------ Inorder Travseral ---------------------------------------------------------------------->
 
@@ -83,6 +112,8 @@ void postOrder(Node* root, vector<int> &arr){
 
 Level Order Traversal :- 
 
+// C++ Implementation:-
+
     queue<TreeNode*>q;
     q.push(root);
     while(!q.empty()){
@@ -97,6 +128,34 @@ Level Order Traversal :-
         }
         ans.push_back(temp);
     }
+
+
+// Python Implementation:-
+
+    def level_order_grouped(root):
+        if not root:
+            return []
+
+        result = []
+        queue = deque([root])
+
+        while queue:
+            level_size = len(queue)  # Number of elements at the current level
+            current_level_nodes = []
+
+            # Process all nodes belonging strictly to the current level
+            for _ in range(level_size):
+                current = queue.popleft()
+                current_level_nodes.append(current.data)
+
+                if current.left:
+                    queue.append(current.left)
+                if current.right:
+                    queue.append(current.right)
+
+            result.append(current_level_nodes)
+
+        return result
 
 
 
@@ -204,6 +263,73 @@ Level Order Traversal :-
 
         return min(left_min, right_min);
     }
+
+    // Python Implementation:
+
+        class SegmentTree:
+            def __init__(self, arr):
+                self.n = len(arr)
+                self.arr = arr
+                # Allocate 4 * n space for the tree
+                self.tree = [0] * (4 * self.n)
+                if self.n > 0:
+                    self.build(0, 0, self.n - 1)
+
+            def build(self, node, start, end):
+                """Builds the segment tree recursively."""
+                if start == end:
+                    # Leaf node stores single element
+                    self.tree[node] = self.arr[start]
+                    return
+                
+                mid = (start + end) // 2
+                left_child = 2 * node + 1
+                right_child = 2 * node + 2
+                
+                # Recursively build left and right children
+                self.build(left_child, start, mid)
+                self.build(right_child, mid + 1, end)
+                
+                # Internal node stores the sum of its children
+                self.tree[node] = self.tree[left_child] + self.tree[right_child]
+
+            def update(self, node, start, end, idx, val):
+                """Updates a specific index in the array and adjusts the tree."""
+                if start == end:
+                    # Found the target leaf node
+                    self.arr[idx] = val
+                    self.tree[node] = val
+                    return
+                
+                mid = (start + end) // 2
+                left_child = 2 * node + 1
+                right_child = 2 * node + 2
+                
+                if start <= idx <= mid:
+                    self.update(left_child, start, mid, idx, val)
+                else:
+                    self.update(right_child, mid + 1, end, idx, val)
+                    
+                # Recalculate current node's value after child update
+                self.tree[node] = self.tree[left_child] + self.tree[right_child]
+
+            def query(self, node, start, end, l, r):
+                """Queries the sum of the range [l, r]."""
+                # Case 1: Complete overlap
+                if l <= start and end <= r:
+                    return self.tree[node]
+                    
+                # Case 2: No overlap
+                if end < l or start > r:
+                    return 0
+                    
+                # Case 3: Partial overlap
+                mid = (start + end) // 2
+                left_sum = self.query(2 * node + 1, start, mid, l, r)
+                right_sum = self.query(2 * node + 2, mid + 1, end, l, r)
+                
+                return left_sum + right_sum
+
       
 
 // Applications of Segment Tree:- 
